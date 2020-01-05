@@ -28,6 +28,16 @@ type Layer struct {
 	Data       *Data       `xml:"data"`
 }
 
+func (l *Layer) GID(x, y int) (int, error) {
+	if x > l.Width {
+		return -1, fmt.Errorf("x is too large")
+	}
+	if y > l.Height {
+		return -1, fmt.Errorf("y is too large")
+	}
+	return l.Data.Tile.GID[(y*l.Width)+x], nil
+}
+
 func (l *Layer) String() string {
 	var b strings.Builder
 

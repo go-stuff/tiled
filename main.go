@@ -14,4 +14,10 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Println(t.String())
+
+	gid, err := t.Map.Layer[0].GID(5, 1)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(gid)
 }
