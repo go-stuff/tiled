@@ -10,6 +10,9 @@
  </properties>
  <tileset firstgid="1" source="tileset.tsx"/>
  <layer id="1" name="Layer1" width="10" height="10">
+  <properties>
+   <property name="Layer1PropertyString" value="layer1"/>
+  </properties>
   <data encoding="csv">
 0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,371,0,0,0,0,

@@ -38,19 +38,19 @@ func (t *Tileset) String() string {
 	var b strings.Builder
 
 	fmt.Fprintf(&b, "Tileset (%s):\n", t.Source)
-	fmt.Fprintf(&b, "\tFirstGID:   %d (%T)\n", t.FirstGID, t.FirstGID)
-	fmt.Fprintf(&b, "\tSource:     %q (%T)\n", t.Source, t.Source)
-	fmt.Fprintf(&b, "\tName:       %q (%T)\n", t.Name, t.Name)
-	fmt.Fprintf(&b, "\tTileWidth:  %d (%T)\n", t.TileWidth, t.TileWidth)
-	fmt.Fprintf(&b, "\tTileHeight: %d (%T)\n", t.TileHeight, t.TileHeight)
-	fmt.Fprintf(&b, "\tSpacing:    %d (%T)\n", t.Spacing, t.Spacing)
-	fmt.Fprintf(&b, "\tMargin:     %d (%T)\n", t.Margin, t.Margin)
-	fmt.Fprintf(&b, "\tTileCount:  %d (%T)\n", t.TileCount, t.TileCount)
-	fmt.Fprintf(&b, "\tColumns:    %d (%T)\n", t.Columns, t.Columns)
+	fmt.Fprintf(&b, "\tFirstGID:   (%T) %d\n", t.FirstGID, t.FirstGID)
+	fmt.Fprintf(&b, "\tSource:     (%T) %q\n", t.Source, t.Source)
+	fmt.Fprintf(&b, "\tName:       (%T) %q\n", t.Name, t.Name)
+	fmt.Fprintf(&b, "\tTileWidth:  (%T) %d\n", t.TileWidth, t.TileWidth)
+	fmt.Fprintf(&b, "\tTileHeight: (%T) %d\n", t.TileHeight, t.TileHeight)
+	fmt.Fprintf(&b, "\tSpacing:    (%T) %d\n", t.Spacing, t.Spacing)
+	fmt.Fprintf(&b, "\tMargin:     (%T) %d\n", t.Margin, t.Margin)
+	fmt.Fprintf(&b, "\tTileCount:  (%T) %d\n", t.TileCount, t.TileCount)
+	fmt.Fprintf(&b, "\tColumns:    (%T)%d\n", t.Columns, t.Columns)
 	fmt.Fprintf(&b, "\n")
 
 	if t.Tile != nil {
-		fmt.Fprint(&b, "Tileset ", t.Tile.String())
+		fmt.Fprintf(&b, "%s\n", t.Tile.String())
 	}
 
 	return b.String()

@@ -51,12 +51,12 @@ type Map struct {
 	// Can contain: <properties>, <tileset>, <layer>, <objectgroup>, <imagelayer>, <group> (since 1.0)
 
 	// Property structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#property
-	Properties   *Properties    `xml:"properties"`
-	Tilesets     []*Tileset     `xml:"tileset"`
-	Layers       []*Layer       `xml:"layer"`
-	ObjectGroups []*ObjectGroup `xml:"objectgroup"`
-	ImageLayers  []*ImageLayer  `xml:"imagelayer"`
-	Groups       []*Group       `xml:"group"`
+	Properties  *Properties    `xml:"properties"`
+	Tileset     []*Tileset     `xml:"tileset"`
+	Layer       []*Layer       `xml:"layer"`
+	ObjectGroup []*ObjectGroup `xml:"objectgroup"`
+	ImageLayer  []*ImageLayer  `xml:"imagelayer"`
+	Groups      []*Group       `xml:"group"`
 }
 
 func (m *Map) String() string {
@@ -81,12 +81,12 @@ func (m *Map) String() string {
 
 	fmt.Fprintf(&b, "%v\n", m.Properties.String())
 
-	for i := range m.Tilesets {
-		fmt.Fprintf(&b, "%v\n", m.Tilesets[i].String())
+	for i := range m.Tileset {
+		fmt.Fprintf(&b, "%v\n", m.Tileset[i].String())
 	}
 
-	for i := range m.Layers {
-		fmt.Fprintf(&b, m.Layers[i].String())
+	for i := range m.Layer {
+		fmt.Fprintf(&b, m.Layer[i].String())
 	}
 
 	return b.String()

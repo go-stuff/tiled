@@ -32,25 +32,9 @@ type Data struct {
 	// from which tileset the tile is you need to find the tileset with the highest firstgid that is still lower or
 	// equal than the gid. The tilesets are always stored with increasing firstgids.
 
-	// // Can contain: <tile>, <chunk>
-	// Tiles struct {
-	// 	GID []int
-
-	// 	// Not to be confused with the tile element inside a tileset, this element defines the value of a single tile on a
-	// 	// tile layer. This is however the most inefficient way of storing the tile layer data, and should generally be
-	// 	// avoided.
-	// } `xml:"tile,omitempty"`
-
-	//LayerTiles *LayerTiles `xml:"layertile,omitempty"`
-
-	// https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#tmx-tilelayer-tile
-	Tiles *LayerTiles `xml:"tile,omitempty"`
-
-	// Not to be confused with the tile element inside a tileset, this element defines the value of a single tile on a
-	// tile layer. This is however the most inefficient way of storing the tile layer data, and should generally be
-	// avoided.
-
-	Chunks *Chunks `xml:"chunk,omitempty"`
+	// Can contain: <tile>, <chunk>
+	Tile  *LayerTile `xml:"tile"`
+	Chunk *Chunk     `xml:"chunk"`
 }
 
 func (d *Data) decodeBase64() ([]byte, error) {
@@ -97,15 +81,15 @@ func (d *Data) decodeCSV() error {
 	)
 	splitData := strings.Split(string(cleanRawData), ",")
 
-	d.Tiles = new(LayerTiles)
-	d.Tiles.GID = make([]int, len(splitData), len(splitData))
+	d.Tile = new(LayerTile)
+	d.Tile.GID = make([]int, len(splitData), len(splitData))
 
 	for i, value := range splitData {
 		gid, err := strconv.Atoi(value)
 		if err != nil {
 			return err
 		}
-		d.Tiles.GID[i] = gid
+		d.Tile.GID[i] = gid
 	}
 
 	return nil
@@ -117,7 +101,7 @@ func (d *Data) String() string {
 	fmt.Fprintf(&b, "Data:\n")
 	fmt.Fprintf(&b, "\tEncoding:    (%T) %q\n", d.Encoding, d.Encoding)
 	fmt.Fprintf(&b, "\tCompression: (%T) %q\n", d.Compression, d.Compression)
-	fmt.Fprintf(&b, "\tTiles.GID:   (%T) len(%d) cap(%d) %v\n", d.Tiles.GID, len(d.Tiles.GID), cap(d.Tiles.GID), d.Tiles.GID)
+	fmt.Fprintf(&b, "\tTile.GID:    (%T) len(%d) cap(%d) %v\n", d.Tile.GID, len(d.Tile.GID), cap(d.Tile.GID), d.Tile.GID)
 
 	return b.String()
 }

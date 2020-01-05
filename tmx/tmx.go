@@ -46,50 +46,17 @@ func LoadTMX(filepath string) (*TMX, error) {
 		return nil, fmt.Errorf("error unmarshaling tmx bytes: %w", err)
 	}
 
-	for _, layer := range t.Map.Layers {
-
-		// t.Layers = make(
-		// 	[]struct {
-		// 		Tiles []int
-		// 	},
-		// 	len(t.Map.Layers),
-		// )
-
-		// t.Layers = append(t.Layers, layer)
-
-		// if layer.Data.Tiles == nil {
-		//layer.Data.Tiles = make([]int, 10, 10)
-		// layer.Data.Tiles[0] = 0
-
-		// log.Println(layer.Data.Tiles)
-		// }
-		// if layer.Data.Tiles == nil {
-		// layer.Data.Tiles = make([]int, 10)
-		err = layer.Data.decodeCSV()
+	for i := range t.Map.Layer {
+		err = t.Map.Layer[i].Data.decodeCSV()
 		if err != nil {
 			return nil, err
 		}
-		// t.Tiles = make([]int, len(tiles), len(tiles))
-		// t.Tiles =
-		// for i, v := range tiles {
-		// 	layer.Data.Tiles[i] = v
-		// }
-
-		// log.Println("\n\nTMX: ", layer.Data.LayerTiles)
-
-		// log.Fatal("stop")
-		// }
-
 	}
 
 	return t, nil
 }
 
 func (t *TMX) String() string {
-	// var b strings.Builder
-
-	// fmt.Fprintf(&b, t.Map.String())
-
 	return t.Map.String()
 }
 

@@ -16,9 +16,9 @@ type Group struct {
 	// opacity and visible recursively affect child layers.
 
 	// Can contain: <properties>, <layer>, <objectgroup>, <imagelayer>, <group>
-	Properties   *Properties    `xml:"properties"`
-	Layer        []*Layer       `xml:"layer"`
-	ObjectGroups []*ObjectGroup `xml:"objectgroup"`
-	ImageLayers  []*ImageLayer  `xml:"imagelayer"`
-	Groups       []*Group       `xml:"group"`
+	Properties  *Properties    `xml:"properties"`
+	Layer       []*Layer       `xml:"layer"`
+	ObjectGroup []*ObjectGroup `xml:"objectgroup"`
+	ImageLayer  []*ImageLayer  `xml:"imagelayer"`
+	Groups      []*Group       `xml:"group"`
 }

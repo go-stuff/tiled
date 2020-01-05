@@ -11,5 +11,5 @@ type Animation struct {
 	// Each tile can have exactly one animation associated with it. In the future, there could be support for multiple named animations on a tile.
 
 	// Can contain: <frame>
-	Frames []*Frame `xml:"frame"`
+	Frame []*Frame `xml:"frame"`
 }
