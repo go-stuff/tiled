@@ -20,4 +20,10 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Println(gid)
+
+	tileset, err := t.Map.Layer[0].GIDTileset(gid, t.Map.Tileset)
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(tileset)
 }

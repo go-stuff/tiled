@@ -28,6 +28,18 @@ type Layer struct {
 	Data       *Data       `xml:"data"`
 }
 
+// GIDTileset returns the tileset a GID resides on.
+func (l *Layer) GIDTileset(gid int, tileset []*Tileset) (*Tileset, error) {
+
+	for _, t := range tileset {
+		if gid >= t.FirstGID && gid < t.FirstGID+t.TileCount {
+			return t, nil
+		}
+	}
+
+	return nil, fmt.Errorf("tileset not found")
+}
+
 // GID is returned using X and Y coordinates.
 func (l *Layer) GID(x, y int) (int, error) {
 	if x > l.Width {
