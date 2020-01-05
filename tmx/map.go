@@ -3,6 +3,7 @@ package tmx
 import (
 	"encoding/xml"
 	"fmt"
+	"image"
 	"strings"
 )
 
@@ -57,6 +58,9 @@ type Map struct {
 	ObjectGroup []*ObjectGroup `xml:"objectgroup"`
 	ImageLayer  []*ImageLayer  `xml:"imagelayer"`
 	Groups      []*Group       `xml:"group"`
+
+	// Image is a custom field, it is a map of tileset images.
+	Image map[string]*image.Image
 }
 
 func (m *Map) String() string {
@@ -77,15 +81,18 @@ func (m *Map) String() string {
 	fmt.Fprintf(&b, "\tBackgroundColor:    (%T) %q\n", m.BackgroundColor, m.BackgroundColor)
 	fmt.Fprintf(&b, "\tNext Layer ID:      (%T) %d\n", m.NextLayerID, m.NextLayerID)
 	fmt.Fprintf(&b, "\tNext Object ID:     (%T) %d\n", m.NextObjectID, m.NextObjectID)
-	fmt.Fprintf(&b, "\n")
+
+	if m.Image != nil {
+		fmt.Fprintf(&b, "\tImage:              (%T) %v\n", m.Image, m.Image)
+	}
 
 	if m.Properties != nil {
-		fmt.Fprintf(&b, "%v\n", m.Properties.String())
+		fmt.Fprintf(&b, m.Properties.String())
 	}
 
 	if m.Tileset != nil {
 		for i := range m.Tileset {
-			fmt.Fprintf(&b, "%v\n", m.Tileset[i].String())
+			fmt.Fprintf(&b, m.Tileset[i].String())
 		}
 	}
 

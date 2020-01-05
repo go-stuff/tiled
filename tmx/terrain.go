@@ -9,5 +9,5 @@ type Terrain struct {
 	Tile    int      `xml:"tile,attr"` // The local tile-id of the tile that represents the terrain visually.
 
 	// Can contain: <properties>
-	Properties Properties `xml:"properties"`
+	Properties *Properties `xml:"properties"`
 }

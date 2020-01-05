@@ -20,9 +20,15 @@
 package tmx
 
 import (
+	"bytes"
+	"image"
+	_ "image/jpeg"
+	_ "image/png"
+
 	"encoding/xml"
 	"fmt"
 	"io/ioutil"
+	"path"
 )
 
 // TMX structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#tmx-map-format
@@ -34,7 +40,9 @@ type TMX struct {
 func LoadTMX(filepath string) (*TMX, error) {
 	t := new(TMX)
 
-	//tmxDir, tmxFile := path.Split(filepath)
+	t.Map.Image = make(map[string]*image.Image)
+
+	tmxDir, _ := path.Split(filepath)
 
 	tmxBytes, err := ioutil.ReadFile(filepath)
 	if err != nil {
@@ -44,6 +52,42 @@ func LoadTMX(filepath string) (*TMX, error) {
 	err = xml.Unmarshal(tmxBytes, &t.Map)
 	if err != nil {
 		return nil, fmt.Errorf("error unmarshaling tmx bytes: %w", err)
+	}
+
+	for i := range t.Map.Tileset {
+		if t.Map.Tileset[i].Source != "" {
+			tsxDir, tsxFile := path.Split(t.Map.Tileset[i].Source)
+
+			fmt.Println("tsxDir: ", tsxDir, "tsxFile: ", tsxFile)
+
+			tsxBytes, err := ioutil.ReadFile(path.Join(tmxDir, tsxDir, tsxFile))
+			if err != nil {
+				return nil, fmt.Errorf("error reading tsx file: %w", err)
+			}
+
+			err = xml.Unmarshal(tsxBytes, &t.Map.Tileset[i])
+			if err != nil {
+				return nil, fmt.Errorf("error unmarshaling tsx bytes: %w", err)
+			}
+
+			t.Map.Tileset[i].Source = path.Join(tmxDir, tsxDir, tsxFile)
+
+			imgDir, imgFile := path.Split(t.Map.Tileset[i].Image.Source)
+
+			t.Map.Tileset[i].Image.Source = path.Join(tmxDir, tsxDir, imgDir, imgFile)
+
+			if t.Map.Image[t.Map.Tileset[i].Image.Source] == nil {
+				imgBytes, err := ioutil.ReadFile(t.Map.Tileset[i].Image.Source)
+				if err != nil {
+					return nil, fmt.Errorf("error reading image file: %w", err)
+				}
+				pngImage, _, err := image.Decode(bytes.NewReader(imgBytes))
+				if err != nil {
+					return nil, fmt.Errorf("error decoding image file: %w", err)
+				}
+				t.Map.Image[t.Map.Tileset[i].Image.Source] = &pngImage
+			}
+		}
 	}
 
 	for i := range t.Map.Layer {

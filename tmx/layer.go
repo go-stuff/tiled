@@ -28,6 +28,7 @@ type Layer struct {
 	Data       *Data       `xml:"data"`
 }
 
+// GID is returned using X and Y coordinates.
 func (l *Layer) GID(x, y int) (int, error) {
 	if x > l.Width {
 		return -1, fmt.Errorf("x is too large")
@@ -52,14 +53,13 @@ func (l *Layer) String() string {
 	fmt.Fprintf(&b, "\tVisible: (%T) %t\n", l.Visible, l.Visible)
 	fmt.Fprintf(&b, "\tOffsetX: (%T) %f\n", l.OffsetX, l.OffsetX)
 	fmt.Fprintf(&b, "\tOffsetY: (%T) %f\n", l.OffsetY, l.OffsetY)
-	fmt.Fprintf(&b, "\n")
 
 	if l.Properties != nil {
-		fmt.Fprintf(&b, "Layer (%d) Properties:\n%v\n", l.ID, l.Properties.String())
+		fmt.Fprintf(&b, "Layer (%d) Properties:\n%v", l.ID, l.Properties.String())
 	}
 
 	if l.Data != nil {
-		fmt.Fprintf(&b, "Layer (%d) Data:\n%v\n", l.ID, l.Data.String())
+		fmt.Fprintf(&b, "Layer (%d) Data:\n%v", l.ID, l.Data.String())
 	}
 
 	return b.String()

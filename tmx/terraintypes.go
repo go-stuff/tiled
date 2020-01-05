@@ -9,5 +9,5 @@ type TerrainTypes struct {
 	// element.
 
 	// Can contain: <terrain>
-	Terrain []Terrain `xml:"terrain"`
+	Terrain []*Terrain `xml:"terrain"`
 }

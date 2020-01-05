@@ -22,7 +22,7 @@ func (p *Properties) String() string {
 
 	if p.Property != nil {
 		for i := range p.Property {
-			fmt.Fprintf(&b, "%v\n", p.Property[i].String())
+			fmt.Fprintf(&b, p.Property[i].String())
 		}
 	}
 

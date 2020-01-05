@@ -1,6 +1,10 @@
 package tmx
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+	"fmt"
+	"strings"
+)
 
 // Grid structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#grid
 type Grid struct {
@@ -11,4 +15,15 @@ type Grid struct {
 
 	// This element is only used in case of isometric orientation, and determines how tile overlays for terrain and
 	// collision information are rendered.
+}
+
+func (g *Grid) String() string {
+	var b strings.Builder
+
+	fmt.Fprintf(&b, "Grid:\n")
+	fmt.Fprintf(&b, "\tOrientation: (%T) %q\n", g.Orientation, g.Orientation)
+	fmt.Fprintf(&b, "\tWidth:       (%T) %d\n", g.Width, g.Width)
+	fmt.Fprintf(&b, "\tHeight:      (%T) %d\n", g.Height, g.Height)
+
+	return b.String()
 }

@@ -46,11 +46,26 @@ func (t *Tileset) String() string {
 	fmt.Fprintf(&b, "\tSpacing:    (%T) %d\n", t.Spacing, t.Spacing)
 	fmt.Fprintf(&b, "\tMargin:     (%T) %d\n", t.Margin, t.Margin)
 	fmt.Fprintf(&b, "\tTileCount:  (%T) %d\n", t.TileCount, t.TileCount)
-	fmt.Fprintf(&b, "\tColumns:    (%T)%d\n", t.Columns, t.Columns)
-	fmt.Fprintf(&b, "\n")
+	fmt.Fprintf(&b, "\tColumns:    (%T) %d\n", t.Columns, t.Columns)
+
+	if t.TileOffset != nil {
+		fmt.Fprintf(&b, t.TileOffset.String())
+	}
+
+	if t.Grid != nil {
+		fmt.Fprintf(&b, t.Grid.String())
+	}
+
+	if t.Properties != nil {
+		fmt.Fprintf(&b, t.Properties.String())
+	}
+
+	if t.Image != nil {
+		fmt.Fprintf(&b, t.Image.String())
+	}
 
 	if t.Tile != nil {
-		fmt.Fprintf(&b, "%s\n", t.Tile.String())
+		fmt.Fprintf(&b, t.Tile.String())
 	}
 
 	return b.String()
