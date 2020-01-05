@@ -79,14 +79,20 @@ func (m *Map) String() string {
 	fmt.Fprintf(&b, "\tNext Object ID:     (%T) %d\n", m.NextObjectID, m.NextObjectID)
 	fmt.Fprintf(&b, "\n")
 
-	fmt.Fprintf(&b, "%v\n", m.Properties.String())
-
-	for i := range m.Tileset {
-		fmt.Fprintf(&b, "%v\n", m.Tileset[i].String())
+	if m.Properties != nil {
+		fmt.Fprintf(&b, "%v\n", m.Properties.String())
 	}
 
-	for i := range m.Layer {
-		fmt.Fprintf(&b, m.Layer[i].String())
+	if m.Tileset != nil {
+		for i := range m.Tileset {
+			fmt.Fprintf(&b, "%v\n", m.Tileset[i].String())
+		}
+	}
+
+	if m.Layer != nil {
+		for i := range m.Layer {
+			fmt.Fprintf(&b, m.Layer[i].String())
+		}
 	}
 
 	return b.String()

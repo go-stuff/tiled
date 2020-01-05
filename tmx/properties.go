@@ -20,9 +20,10 @@ type Properties struct {
 func (p *Properties) String() string {
 	var b strings.Builder
 
-	for i := range p.Property {
-		fmt.Fprintf(&b, p.Property[i].String())
-		fmt.Fprintf(&b, "\n")
+	if p.Property != nil {
+		for i := range p.Property {
+			fmt.Fprintf(&b, "%v\n", p.Property[i].String())
+		}
 	}
 
 	return b.String()
