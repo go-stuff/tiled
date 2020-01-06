@@ -30,7 +30,7 @@ type Tileset struct {
 	Properties   *Properties   `xml:"properties"`
 	Image        *Image        `xml:"image"`
 	TerrainTypes *TerrainTypes `xml:"terraintypes"`
-	Tile         *Tile         `xml:"tile"`
+	Tile         []*Tile       `xml:"tile"`
 	Wangsets     *Wangsets     `xml:"wangsets"`
 }
 
@@ -64,8 +64,8 @@ func (t *Tileset) String() string {
 		fmt.Fprintf(&b, t.Image.String())
 	}
 
-	if t.Tile != nil {
-		fmt.Fprintf(&b, t.Tile.String())
+	for i := range t.Tile {
+		fmt.Fprintf(&b, t.Tile[i].String())
 	}
 
 	return b.String()
