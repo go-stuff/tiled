@@ -96,9 +96,9 @@ func LoadTMX(filepath string) (*TMX, error) {
 		if t.Map.Tileset[i].Image.Source != "" {
 
 			// TODO code the internal tileset
-			_, imgFile := path.Split(t.Map.Tileset[i].Image.Source)
+			imgDir, imgFile := path.Split(t.Map.Tileset[i].Image.Source)
 
-			t.Map.Tileset[i].Image.Source = path.Join(tmxDir, imgFile)
+			t.Map.Tileset[i].Image.Source = path.Join(imgDir, imgFile)
 
 			if t.Map.Image[t.Map.Tileset[i].Image.Source] == nil {
 				imgBytes, err := ioutil.ReadFile(t.Map.Tileset[i].Image.Source)
