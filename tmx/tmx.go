@@ -55,6 +55,8 @@ func LoadTMX(filepath string) (*TMX, error) {
 	}
 
 	for i := range t.Map.Tileset {
+
+		// External Tileset
 		if t.Map.Tileset[i].Source != "" {
 			tsxDir, tsxFile := path.Split(t.Map.Tileset[i].Source)
 
@@ -87,7 +89,30 @@ func LoadTMX(filepath string) (*TMX, error) {
 				}
 				t.Map.Image[t.Map.Tileset[i].Image.Source] = &pngImage
 			}
+
 		}
+
+		// Internal Tileset
+		if t.Map.Tileset[i].Image.Source != "" {
+
+			// TODO code the internal tileset
+			//imgDir, imgFile := path.Split(t.Map.Tileset[i].Image.Source)
+
+			//t.Map.Tileset[i].Image.Source = path.Join(tmxDir, imgDir, imgFile)
+
+			if t.Map.Image[t.Map.Tileset[i].Image.Source] == nil {
+				imgBytes, err := ioutil.ReadFile(t.Map.Tileset[i].Image.Source)
+				if err != nil {
+					return nil, fmt.Errorf("error reading image file: %w", err)
+				}
+				pngImage, _, err := image.Decode(bytes.NewReader(imgBytes))
+				if err != nil {
+					return nil, fmt.Errorf("error decoding image file: %w", err)
+				}
+				t.Map.Image[t.Map.Tileset[i].Image.Source] = &pngImage
+			}
+		}
+
 	}
 
 	for i := range t.Map.Layer {
