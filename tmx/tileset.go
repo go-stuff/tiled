@@ -64,6 +64,10 @@ func (t *Tileset) String() string {
 		fmt.Fprintf(&b, t.Image.String())
 	}
 
+	if t.TerrainTypes != nil {
+		fmt.Fprintf(&b, t.TerrainTypes.String())
+	}
+
 	for i := range t.Tile {
 		fmt.Fprintf(&b, t.Tile[i].String())
 	}
