@@ -1,6 +1,10 @@
 package tmx
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+	"fmt"
+	"strings"
+)
 
 // Animation structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#animation
 type Animation struct {
@@ -12,4 +16,16 @@ type Animation struct {
 
 	// Can contain: <frame>
 	Frame []*Frame `xml:"frame"`
+}
+
+func (a *Animation) String() string {
+	var b strings.Builder
+
+	fmt.Fprintf(&b, "Animation:\n")
+
+	for i := range a.Frame {
+		fmt.Fprintf(&b, a.Frame[i].String())
+	}
+
+	return b.String()
 }
