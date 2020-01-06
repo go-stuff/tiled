@@ -30,5 +30,13 @@ func (t *Tile) String() string {
 	fmt.Fprintf(&b, "\tTerrain:     (%T) %q\n", t.Terrain, t.Terrain)
 	fmt.Fprintf(&b, "\tProbability: (%T) %f\n", t.Probability, t.Probability)
 
+	if t.Properties != nil {
+		fmt.Fprintf(&b, t.Properties.String())
+	}
+
+	if t.Animation != nil {
+		fmt.Fprintf(&b, t.Animation.String())
+	}
+
 	return b.String()
 }
