@@ -1,6 +1,10 @@
 package tmx
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+	"fmt"
+	"strings"
+)
 
 // TerrainTypes structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#terraintypes
 type TerrainTypes struct {
@@ -10,4 +14,16 @@ type TerrainTypes struct {
 
 	// Can contain: <terrain>
 	Terrain []*Terrain `xml:"terrain"`
+}
+
+func (t *TerrainTypes) String() string {
+	var b strings.Builder
+
+	if t.Terrain != nil {
+		for i := range t.Terrain {
+			fmt.Fprintf(&b, t.Terrain[i].String())
+		}
+	}
+
+	return b.String()
 }
