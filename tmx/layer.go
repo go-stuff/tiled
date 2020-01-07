@@ -31,9 +31,9 @@ type Layer struct {
 // GIDTileset returns the tileset a GID resides on.
 func (l *Layer) GIDTileset(gid int, tileset []*Tileset) (*Tileset, error) {
 
-	for _, t := range tileset {
-		if gid >= t.FirstGID && gid < t.FirstGID+t.TileCount {
-			return t, nil
+	for _, tileset := range tileset {
+		if gid >= tileset.FirstGID && gid < tileset.FirstGID+tileset.TileCount {
+			return tileset, nil
 		}
 	}
 
