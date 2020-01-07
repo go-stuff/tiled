@@ -64,8 +64,6 @@ func LoadTMX(path string) (*TMX, error) {
 
 		// Internal Tileset
 		if t.Map.Tileset[i].Image != nil {
-
-			// TODO code the internal tileset
 			imgDir, imgFile := filepath.Split(t.Map.Tileset[i].Image.Source)
 			imgPath := filepath.Join(tmxDir, imgDir, imgFile)
 
@@ -73,18 +71,6 @@ func LoadTMX(path string) (*TMX, error) {
 			fmt.Println("imgPath: ", imgPath)
 
 			t.Map.Tileset[i].Image.Source = imgPath
-
-			if t.Map.Image[imgPath] == nil {
-				imgBytes, err := ioutil.ReadFile(imgPath)
-				if err != nil {
-					return nil, fmt.Errorf("error reading image file: %w", err)
-				}
-				pngImage, _, err := image.Decode(bytes.NewReader(imgBytes))
-				if err != nil {
-					return nil, fmt.Errorf("error decoding image file: %w", err)
-				}
-				t.Map.Image[imgPath] = &pngImage
-			}
 		}
 
 		// External Tileset
@@ -116,19 +102,17 @@ func LoadTMX(path string) (*TMX, error) {
 			fmt.Println("imgPath: ", imgPath)
 
 			t.Map.Tileset[i].Image.Source = imgPath
-
-			if t.Map.Image[t.Map.Tileset[i].Image.Source] == nil {
-				imgBytes, err := ioutil.ReadFile(imgPath)
-				if err != nil {
-					return nil, fmt.Errorf("error reading image file: %w", err)
-				}
-				pngImage, _, err := image.Decode(bytes.NewReader(imgBytes))
-				if err != nil {
-					return nil, fmt.Errorf("error decoding image file: %w", err)
-				}
-				t.Map.Image[imgPath] = &pngImage
-			}
 		}
+
+		imgBytes, err := ioutil.ReadFile(t.Map.Tileset[i].Image.Source)
+		if err != nil {
+			return nil, fmt.Errorf("error reading image file: %w", err)
+		}
+		pngImage, _, err := image.Decode(bytes.NewReader(imgBytes))
+		if err != nil {
+			return nil, fmt.Errorf("error decoding image file: %w", err)
+		}
+		t.Map.Image[t.Map.Tileset[i].Image.Source] = &pngImage
 	}
 
 	for i := range t.Map.Layer {

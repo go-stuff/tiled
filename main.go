@@ -16,6 +16,10 @@ func main() {
 	}
 	fmt.Println(t.String())
 
+	for _, tileset := range t.Map.Tileset {
+		fmt.Println(tileset.Image.String())
+	}
+
 	// gid, err := t.Map.Layer[0].GID(5, 1)
 	// if err != nil {
 	// 	log.Fatal(err)
