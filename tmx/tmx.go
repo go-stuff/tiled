@@ -117,19 +117,19 @@ func LoadTMX(path string) (*TMX, error) {
 		// Add Image to custom Image Map
 		t.Map.Image[tileset.Image.Source] = &pngImage
 
-		for _, tile := range tileset.Tile {
+		for i := range tileset.Tile {
 
 			// Calculate accurate GIDs using Tileset.FirstGID.
-			tile.ID -= tileset.FirstGID
+			tileset.Tile[i].ID -= tileset.FirstGID
 
-			if tile.Animation != nil {
-				for _, frame := range tile.Animation.Frame {
-					frame.TileID -= tileset.FirstGID
+			if tileset.Tile[i].Animation != nil {
+				for j := range tileset.Tile[i].Animation.Frame {
+					tileset.Tile[i].Animation.Frame[j].TileID -= tileset.FirstGID
 				}
 			}
 
 			// Add Tiles to custom Tile Map
-			t.Map.Tile[tile.ID] = tile
+			t.Map.Tile[tileset.Tile[i].ID] = tileset.Tile[i]
 		}
 	}
 
