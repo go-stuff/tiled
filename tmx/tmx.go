@@ -121,6 +121,7 @@ func LoadTMX(path string) (*TMX, error) {
 
 			// Calculate accurate GIDs using Tileset.FirstGID.
 			tile.ID -= tileset.FirstGID
+
 			if tile.Animation != nil {
 				for _, frame := range tile.Animation.Frame {
 					frame.TileID -= tileset.FirstGID
@@ -141,7 +142,7 @@ func LoadTMX(path string) (*TMX, error) {
 		}
 
 		if layer.Data != nil {
-			for _, gid := range layer.Data.Tile.GID {
+			for i, gid := range layer.Data.Tile.GID {
 				if gid != 0 {
 					// Get the Tileset of the current GID.
 					t, err := layer.GIDTileset(gid, t.Map.Tileset)
@@ -149,7 +150,7 @@ func LoadTMX(path string) (*TMX, error) {
 						return nil, err
 					}
 					// Get the real GID by subtracting the tileset firtst GID.
-					gid -= t.FirstGID
+					layer.Data.Tile.GID[i] -= t.FirstGID
 				}
 			}
 		}
