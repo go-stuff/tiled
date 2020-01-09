@@ -41,6 +41,7 @@ func LoadTMX(path string) (*TMX, error) {
 	t := new(TMX)
 
 	t.Map.Image = make(map[string]*image.Image)
+	t.Map.Tile = make(map[int]*Tile)
 
 	// if !filepath.IsAbs(path) {
 	// 	return nil, fmt.Errorf("you must use the absolute path of the tmx file")
@@ -113,7 +114,13 @@ func LoadTMX(path string) (*TMX, error) {
 			return nil, fmt.Errorf("error decoding image file: %w", err)
 		}
 
+		// Add Image to custom Image Map
 		t.Map.Image[tileset.Image.Source] = &pngImage
+
+		// Add Tiles to custom Tile Map
+		for _, v := range tileset.Tile {
+			t.Map.Tile[v.ID] = v
+		}
 	}
 
 	for _, layer := range t.Map.Layer {

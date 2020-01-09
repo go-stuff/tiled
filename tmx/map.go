@@ -59,8 +59,10 @@ type Map struct {
 	ImageLayer  []*ImageLayer  `xml:"imagelayer"`
 	Groups      []*Group       `xml:"group"`
 
-	// Image is a custom field, it is a map of tileset images.
+	// Image is a custom field, it is a map of tileset images, accessed by image source path.
 	Image map[string]*image.Image
+	// Tile is a custom field, it is a map of tile, accessed by GID.
+	Tile map[int]*Tile
 }
 
 func (m *Map) String() string {
