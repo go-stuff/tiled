@@ -140,30 +140,19 @@ func LoadTMX(path string) (*TMX, error) {
 			return nil, err
 		}
 
-		// // Update the GID by subtracting the Tileset.FirstGID
-		// for i, gid := range layer.Data.Tile.GID {
-
-		// 	tileset, err := layer.GIDTileset(gid, t.Map.Tileset)
-		// 	if err != nil {
-		// 		return nil, err
-		// 	}
-
-		// 	// 	// for _, tile := range tileset.Tile {
-		// 	// 	// 	tile.ID = tile.ID - tileset.FirstGID
-
-		// 	// 	// 	if tile.Animation != nil {
-		// 	// 	// 		if tile.Animation.Frame != nil {
-		// 	// 	// 			for _, frame := range tile.Animation.Frame {
-		// 	// 	// 				frame.TileID = frame.TileID - tileset.FirstGID
-		// 	// 	// 			}
-		// 	// 	// 		}
-		// 	// 	// 	}
-		// 	// 	// }
-
-		// 	if gid != 0 {
-		// 		layer.Data.Tile.GID[i] = gid - tileset.FirstGID
-		// 	}
-		// }
+		if layer.Data != nil {
+			for _, gid := range layer.Data.Tile.GID {
+				if gid != 0 {
+					// Get the Tileset of the current GID.
+					t, err := layer.GIDTileset(gid, t.Map.Tileset)
+					if err != nil {
+						return nil, err
+					}
+					// Get the real GID by subtracting the tileset firtst GID.
+					gid -= t.FirstGID
+				}
+			}
+		}
 	}
 
 	// Subtract Tileset.FirstGID from CSV GIDs
