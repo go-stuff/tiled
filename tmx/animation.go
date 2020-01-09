@@ -27,7 +27,8 @@ func (a *Animation) String() string {
 	var b strings.Builder
 
 	fmt.Fprintf(&b, "Animation:\n")
-	fmt.Fprintf(&b, "\tFrame Index: (%T) %d\n", a.FrameIndex, a.FrameIndex)
+	fmt.Fprintf(&b, "\tFrame Index:    (%T) %d\n", a.FrameIndex, a.FrameIndex)
+	fmt.Fprintf(&b, "\tFrame Duration: (%T) %d\n", a.FrameDuration, a.FrameDuration)
 
 	for i := range a.Frame {
 		fmt.Fprintf(&b, a.Frame[i].String())
