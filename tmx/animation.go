@@ -19,6 +19,8 @@ type Animation struct {
 
 	// FrameIndex is a custom field to keep track of the current animated frame.
 	FrameIndex int `xml:"-"`
+	// FrameDuration is a custom field to keep track of how long the current frame index as been drawn.
+	FrameDuration int64 `xml:"-"`
 }
 
 func (a *Animation) String() string {
