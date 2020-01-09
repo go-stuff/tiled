@@ -16,12 +16,16 @@ type Animation struct {
 
 	// Can contain: <frame>
 	Frame []*Frame `xml:"frame"`
+
+	// FrameIndex is a custom field to keep track of the current animated frame.
+	FrameIndex int `xml:"-"`
 }
 
 func (a *Animation) String() string {
 	var b strings.Builder
 
 	fmt.Fprintf(&b, "Animation:\n")
+	fmt.Fprintf(&b, "\tFrame Index: (%T) %d\n", a.FrameIndex, a.FrameIndex)
 
 	for i := range a.Frame {
 		fmt.Fprintf(&b, a.Frame[i].String())
