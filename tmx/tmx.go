@@ -120,11 +120,20 @@ func LoadTMX(path string) (*TMX, error) {
 		for i := range tileset.Tile {
 
 			// Calculate accurate GIDs using Tileset.FirstGID.
-			tileset.Tile[i].ID -= tileset.FirstGID
+			if tileset.Tile[i].ID > tileset.FirstGID {
+				tileset.Tile[i].ID -= tileset.FirstGID
+			} else {
+				tileset.Tile[i].ID = tileset.FirstGID - tileset.Tile[i].ID
+			}
 
 			if tileset.Tile[i].Animation != nil {
 				for j := range tileset.Tile[i].Animation.Frame {
-					tileset.Tile[i].Animation.Frame[j].TileID -= tileset.FirstGID
+
+					if tileset.Tile[i].Animation.Frame[j].TileID > tileset.FirstGID {
+						tileset.Tile[i].Animation.Frame[j].TileID -= tileset.FirstGID
+					} else {
+						tileset.Tile[i].Animation.Frame[j].TileID = tileset.FirstGID - tileset.Tile[i].Animation.Frame[j].TileID
+					}
 				}
 			}
 
