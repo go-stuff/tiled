@@ -117,18 +117,57 @@ func LoadTMX(path string) (*TMX, error) {
 		// Add Image to custom Image Map
 		t.Map.Image[tileset.Image.Source] = &pngImage
 
-		// Add Tiles to custom Tile Map
-		for _, v := range tileset.Tile {
-			t.Map.Tile[v.ID] = v
+		for _, tile := range tileset.Tile {
+
+			// Calculate accurate GIDs using Tileset.FirstGID.
+			tile.ID -= tileset.FirstGID
+			if tile.Animation != nil {
+				for _, frame := range tile.Animation.Frame {
+					frame.TileID -= tileset.FirstGID
+				}
+			}
+
+			// Add Tiles to custom Tile Map
+			t.Map.Tile[tile.ID] = tile
 		}
 	}
 
 	for _, layer := range t.Map.Layer {
+
+		// Decode CSV Data into GIDs
 		err = layer.Data.decodeCSV()
 		if err != nil {
 			return nil, err
 		}
+
+		// // Update the GID by subtracting the Tileset.FirstGID
+		// for i, gid := range layer.Data.Tile.GID {
+
+		// 	tileset, err := layer.GIDTileset(gid, t.Map.Tileset)
+		// 	if err != nil {
+		// 		return nil, err
+		// 	}
+
+		// 	// 	// for _, tile := range tileset.Tile {
+		// 	// 	// 	tile.ID = tile.ID - tileset.FirstGID
+
+		// 	// 	// 	if tile.Animation != nil {
+		// 	// 	// 		if tile.Animation.Frame != nil {
+		// 	// 	// 			for _, frame := range tile.Animation.Frame {
+		// 	// 	// 				frame.TileID = frame.TileID - tileset.FirstGID
+		// 	// 	// 			}
+		// 	// 	// 		}
+		// 	// 	// 	}
+		// 	// 	// }
+
+		// 	if gid != 0 {
+		// 		layer.Data.Tile.GID[i] = gid - tileset.FirstGID
+		// 	}
+		// }
 	}
+
+	// Subtract Tileset.FirstGID from CSV GIDs
+	// Subtract Tileset.FirstGID from Tile Animation Frames
 
 	return t, nil
 }
