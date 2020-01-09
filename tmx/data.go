@@ -89,7 +89,7 @@ func (d *Data) decodeCSV() error {
 		if err != nil {
 			return err
 		}
-		d.Tile.GID[i] = gid
+		d.Tile.GID[i] = gid - 1
 	}
 
 	return nil
