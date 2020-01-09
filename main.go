@@ -18,11 +18,12 @@ func main() {
 
 	for _, tileset := range t.Map.Tileset {
 		fmt.Println(tileset.Image.String())
+		fmt.Println(tileset.FirstGID)
 	}
 
-	for k, v := range t.Map.Tile {
-		fmt.Println("key: ", k, ", value: ", v)
-	}
+	// for k, v := range t.Map.Tile {
+	// 	fmt.Println("key: ", k, ", value: ", v)
+	// }
 
 	// gid, err := t.Map.Layer[0].GID(5, 1)
 	// if err != nil {

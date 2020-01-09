@@ -117,28 +117,29 @@ func LoadTMX(path string) (*TMX, error) {
 		// Add Image to custom Image Map
 		t.Map.Image[tileset.Image.Source] = &pngImage
 
-		for i := range tileset.Tile {
-
+		for _, tile := range tileset.Tile {
+			fmt.Println(tileset.FirstGID)
 			// Calculate accurate GIDs using Tileset.FirstGID.
-			if tileset.Tile[i].ID > tileset.FirstGID {
-				tileset.Tile[i].ID -= tileset.FirstGID
-			} else {
-				tileset.Tile[i].ID = tileset.FirstGID - tileset.Tile[i].ID
-			}
+			tile.ID -= -1 //tileset.FirstGID
+			// if tile.ID > tileset.FirstGID {
+			// 	tile.ID = tile.ID - tileset.FirstGID
+			// } else {
+			// 	tile.ID = tileset.FirstGID - tile.ID
+			// }
 
-			if tileset.Tile[i].Animation != nil {
-				for j := range tileset.Tile[i].Animation.Frame {
-
-					if tileset.Tile[i].Animation.Frame[j].TileID > tileset.FirstGID {
-						tileset.Tile[i].Animation.Frame[j].TileID -= tileset.FirstGID
-					} else {
-						tileset.Tile[i].Animation.Frame[j].TileID = tileset.FirstGID - tileset.Tile[i].Animation.Frame[j].TileID
-					}
+			if tile.Animation != nil {
+				for _, frame := range tile.Animation.Frame {
+					frame.TileID -= 1 //tileset.FirstGID
+					// if frame.TileID > tileset.FirstGID {
+					// 	frame.TileID = frame.TileID - tileset.FirstGID
+					// } else {
+					// 	frame.TileID = tileset.FirstGID - frame.TileID
+					// }
 				}
 			}
 
 			// Add Tiles to custom Tile Map
-			t.Map.Tile[tileset.Tile[i].ID] = tileset.Tile[i]
+			t.Map.Tile[tile.ID] = tile
 		}
 	}
 
