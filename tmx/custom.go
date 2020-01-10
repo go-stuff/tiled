@@ -10,8 +10,8 @@ import (
 type Custom struct {
 	// Image is a custom field, it is a map of tileset images, accessed by image source path.
 	Image map[string]*image.Image `xml:"-"`
-	// Tile is a custom field, it is a map of tile, accessed by GID.
-	Tile map[int]*Tile `xml:"-"`
+	// TilesetTile is a custom field, it is a map of tile, accessed by GID.
+	TilesetTile map[*Tileset]map[int]*Tile `xml:"-"`
 }
 
 // NewCustom initializes a Custom structure.
@@ -22,7 +22,7 @@ func NewCustom() (*Custom, error) {
 	custom.Image = make(map[string]*image.Image)
 
 	// map[GID]*Tile
-	custom.Tile = make(map[int]*Tile)
+	custom.TilesetTile = make(map[*Tileset]map[int]*Tile)
 
 	return custom, nil
 }

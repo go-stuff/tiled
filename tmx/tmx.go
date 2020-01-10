@@ -120,7 +120,10 @@ func LoadTMX(path string) (*TMX, error) {
 
 		// Add Tiles to custom Tile Map
 		for _, tile := range tileset.Tile {
-			t.Custom.Tile[tile.ID] = tile
+			if t.Custom.TilesetTile[tileset] == nil {
+				t.Custom.TilesetTile[tileset] = make(map[int]*Tile)
+			}
+			t.Custom.TilesetTile[tileset][tile.ID] = tile
 		}
 	}
 
