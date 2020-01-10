@@ -1,6 +1,10 @@
 package tmx
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+	"fmt"
+	"strings"
+)
 
 // Chunk structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#chunk
 type Chunk struct {
@@ -13,4 +17,17 @@ type Chunk struct {
 	// Can contain: <tile>
 
 	Tile *LayerTile `xml:"tile"`
+}
+
+func (c *Chunk) String() string {
+	var b strings.Builder
+
+	fmt.Fprintf(&b, "Chunk:\n")
+	fmt.Fprintf(&b, "\tX:        (%T) %q\n", c.X, c.X)
+	fmt.Fprintf(&b, "\tY:        (%T) %q\n", c.Y, c.Y)
+	fmt.Fprintf(&b, "\tWidth:    (%T) %q\n", c.Width, c.Width)
+	fmt.Fprintf(&b, "\tHeight:   (%T) %q\n", c.Height, c.Height)
+	fmt.Fprintf(&b, "\tTile.GID: (%T) len(%d) cap(%d) %v\n", c.Tile.GID, len(c.Tile.GID), cap(c.Tile.GID), c.Tile.GID)
+
+	return b.String()
 }

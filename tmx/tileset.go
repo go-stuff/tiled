@@ -68,8 +68,8 @@ func (t *Tileset) String() string {
 		fmt.Fprintf(&b, t.TerrainTypes.String())
 	}
 
-	for i := range t.Tile {
-		fmt.Fprintf(&b, t.Tile[i].String())
+	for _, tile := range t.Tile {
+		fmt.Fprintf(&b, tile.String())
 	}
 
 	return b.String()

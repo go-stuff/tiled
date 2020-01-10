@@ -29,7 +29,7 @@ type Property struct {
 func (p *Property) String() string {
 	var b strings.Builder
 
-	fmt.Fprintf(&b, "Property (%s):\n", p.Name)
+	fmt.Fprintf(&b, "Property:\n")
 	fmt.Fprintf(&b, "\tName:     (%T) %q\n", p.Name, p.Name)
 	fmt.Fprintf(&b, "\tType:     (%T) %q\n", p.Type, p.Type)
 	fmt.Fprintf(&b, "\tValueXML: (%T) %q\n", p.ValueXML, p.ValueXML)

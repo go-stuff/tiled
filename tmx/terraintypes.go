@@ -19,10 +19,8 @@ type TerrainTypes struct {
 func (t *TerrainTypes) String() string {
 	var b strings.Builder
 
-	if t.Terrain != nil {
-		for i := range t.Terrain {
-			fmt.Fprintf(&b, t.Terrain[i].String())
-		}
+	for _, terrain := range t.Terrain {
+		fmt.Fprintf(&b, terrain.String())
 	}
 
 	return b.String()

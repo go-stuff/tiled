@@ -1,6 +1,10 @@
 package tmx
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+	"fmt"
+	"strings"
+)
 
 // Object structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#object
 type Object struct {
@@ -32,11 +36,38 @@ type Object struct {
 	// saved with the object will have higher priority, i.e. they will override the template properties.
 
 	// Can contain: <properties>, <ellipse> (since 0.9), <point>, <polygon>, <polyline>, <text> (since 1.0), image
-	Properties Properties `xml:"properties"`
+	Properties *Properties `xml:"properties"`
 	// TODO ellipse
 	// TODO point
 	// TODO polygon
 	// TODO polyline
 	// TODO text
-	Image Image `xml:"image"`
+	Image *Image `xml:"image"`
+}
+
+func (o *Object) String() string {
+	var b strings.Builder
+
+	fmt.Fprintf(&b, "Object:\n")
+	fmt.Fprintf(&b, "\tID:       (%T) %d\n", o.ID, o.ID)
+	fmt.Fprintf(&b, "\tName:     (%T) %q\n", o.Name, o.Name)
+	fmt.Fprintf(&b, "\tType:     (%T) %q\n", o.Type, o.Type)
+	fmt.Fprintf(&b, "\tX:        (%T) %f\n", o.X, o.X)
+	fmt.Fprintf(&b, "\tY:        (%T) %f\n", o.Y, o.Y)
+	fmt.Fprintf(&b, "\tWidth:    (%T) %f\n", o.Width, o.Width)
+	fmt.Fprintf(&b, "\tHeight:   (%T) %f\n", o.Height, o.Height)
+	fmt.Fprintf(&b, "\tRotation: (%T) %f\n", o.Rotation, o.Rotation)
+	fmt.Fprintf(&b, "\tGID:      (%T) %d\n", o.GID, o.GID)
+	fmt.Fprintf(&b, "\tVisible:  (%T) %t\n", o.Visible, o.Visible)
+	fmt.Fprintf(&b, "\tTemplate: (%T) %q\n", o.Template, o.Template)
+
+	if o.Properties != nil {
+		fmt.Fprintf(&b, o.Properties.String())
+	}
+
+	if o.Image != nil {
+		fmt.Fprintf(&b, o.Image.String())
+	}
+
+	return b.String()
 }

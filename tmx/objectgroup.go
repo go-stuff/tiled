@@ -1,6 +1,10 @@
 package tmx
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+	"fmt"
+	"strings"
+)
 
 // ObjectGroup structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#objectgroup
 type ObjectGroup struct {
@@ -22,6 +26,30 @@ type ObjectGroup struct {
 	// The object group is in fact a map layer, and is hence called “object layer” in Tiled.
 
 	// Can contain: <properties>, <object>
-	Properties Properties `xml:"properties"`
-	Object     Object     `xml:"object"`
+	Properties *Properties `xml:"properties"`
+	Object     []*Object   `xml:"object"`
+}
+
+func (o *ObjectGroup) String() string {
+	var b strings.Builder
+
+	fmt.Fprintf(&b, "ObjectGroup:\n")
+	fmt.Fprintf(&b, "\tID:        (%T) %d\n", o.ID, o.ID)
+	fmt.Fprintf(&b, "\tName:      (%T) %q\n", o.Name, o.Name)
+	fmt.Fprintf(&b, "\tColor:     (%T) %q\n", o.Color, o.Color)
+	fmt.Fprintf(&b, "\tOpacity:   (%T) %t\n", o.Opacity, o.Opacity)
+	fmt.Fprintf(&b, "\tVisible:   (%T) %t\n", o.Visible, o.Visible)
+	fmt.Fprintf(&b, "\tOffsetX:   (%T) %d\n", o.OffsetX, o.OffsetX)
+	fmt.Fprintf(&b, "\tOffsetY:   (%T) %d\n", o.OffsetY, o.OffsetY)
+	fmt.Fprintf(&b, "\tDrawOrder: (%T) %q\n", o.DrawOrder, o.DrawOrder)
+
+	if o.Properties != nil {
+		fmt.Fprintf(&b, o.Properties.String())
+	}
+
+	for _, object := range o.Object {
+		fmt.Fprintf(&b, object.String())
+	}
+
+	return b.String()
 }

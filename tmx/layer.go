@@ -67,11 +67,11 @@ func (l *Layer) String() string {
 	fmt.Fprintf(&b, "\tOffsetY: (%T) %f\n", l.OffsetY, l.OffsetY)
 
 	if l.Properties != nil {
-		fmt.Fprintf(&b, "Layer (%d) Properties:\n%v", l.ID, l.Properties.String())
+		fmt.Fprintf(&b, l.Properties.String())
 	}
 
 	if l.Data != nil {
-		fmt.Fprintf(&b, "Layer (%d) Data:\n%v", l.ID, l.Data.String())
+		fmt.Fprintf(&b, l.Data.String())
 	}
 
 	return b.String()

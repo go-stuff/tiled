@@ -96,7 +96,7 @@ func (c *Custom) String() string {
 	fmt.Fprintf(&b, "Custom:\n")
 
 	if c.Image != nil {
-		fmt.Fprintf(&b, "\tImage:              (%T) %v\n", c.Image, c.Image)
+		fmt.Fprintf(&b, "\tImage: (%T) %v\n", c.Image, c.Image)
 	}
 
 	return b.String()

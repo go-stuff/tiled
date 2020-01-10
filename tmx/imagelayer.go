@@ -1,6 +1,10 @@
 package tmx
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+	"fmt"
+	"strings"
+)
 
 // ImageLayer structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#imagelayer
 type ImageLayer struct {
@@ -19,4 +23,26 @@ type ImageLayer struct {
 	// Can contain: <properties>, <image>
 	Properties *Properties `xml:"properties"`
 	Image      *Image      `xml:"image"`
+}
+
+func (i *ImageLayer) String() string {
+	var b strings.Builder
+
+	fmt.Fprintf(&b, "ImageLayer (%d):\n", i.ID)
+	fmt.Fprintf(&b, "\tID:      (%T) %d\n", i.ID, i.ID)
+	fmt.Fprintf(&b, "\tName:    (%T) %q\n", i.Name, i.Name)
+	fmt.Fprintf(&b, "\tOffsetX: (%T) %d\n", i.OffsetX, i.OffsetX)
+	fmt.Fprintf(&b, "\tOffsetY: (%T) %d\n", i.OffsetY, i.OffsetY)
+	fmt.Fprintf(&b, "\tOpacity: (%T) %t\n", i.Opacity, i.Opacity)
+	fmt.Fprintf(&b, "\tVisible: (%T) %t\n", i.Visible, i.Visible)
+
+	if i.Properties != nil {
+		fmt.Fprintf(&b, i.Properties.String())
+	}
+
+	if i.Image != nil {
+		fmt.Fprintf(&b, i.Image.String())
+	}
+
+	return b.String()
 }

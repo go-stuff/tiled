@@ -1,6 +1,10 @@
 package tmx
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+	"fmt"
+	"strings"
+)
 
 // Group structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#group
 type Group struct {
@@ -20,5 +24,39 @@ type Group struct {
 	Layer       []*Layer       `xml:"layer"`
 	ObjectGroup []*ObjectGroup `xml:"objectgroup"`
 	ImageLayer  []*ImageLayer  `xml:"imagelayer"`
-	Groups      []*Group       `xml:"group"`
+	Group       []*Group       `xml:"group"`
+}
+
+func (g *Group) String() string {
+	var b strings.Builder
+
+	fmt.Fprintf(&b, "Group:\n")
+	fmt.Fprintf(&b, "\tID:      (%T) %q\n", g.ID, g.ID)
+	fmt.Fprintf(&b, "\tName:    (%T) %q\n", g.Name, g.Name)
+	fmt.Fprintf(&b, "\tOffsetX: (%T) %d\n", g.OffsetX, g.OffsetX)
+	fmt.Fprintf(&b, "\tOffsetY: (%T) %d\n", g.OffsetY, g.OffsetY)
+	fmt.Fprintf(&b, "\tOpacity: (%T) %t\n", g.Opacity, g.Opacity)
+	fmt.Fprintf(&b, "\tVisible: (%T) %t\n", g.Visible, g.Visible)
+
+	if g.Properties != nil {
+		fmt.Fprintf(&b, g.Properties.String())
+	}
+
+	for _, layer := range g.Layer {
+		fmt.Fprintf(&b, layer.String())
+	}
+
+	for _, objectGroup := range g.ObjectGroup {
+		fmt.Fprintf(&b, objectGroup.String())
+	}
+
+	for _, imageLayer := range g.ImageLayer {
+		fmt.Fprintf(&b, imageLayer.String())
+	}
+
+	for _, group := range g.Group {
+		fmt.Fprintf(&b, group.String())
+	}
+
+	return b.String()
 }

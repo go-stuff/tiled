@@ -56,7 +56,7 @@ type Map struct {
 	Layer       []*Layer       `xml:"layer"`
 	ObjectGroup []*ObjectGroup `xml:"objectgroup"`
 	ImageLayer  []*ImageLayer  `xml:"imagelayer"`
-	Groups      []*Group       `xml:"group"`
+	Group       []*Group       `xml:"group"`
 }
 
 func (m *Map) String() string {
@@ -82,16 +82,24 @@ func (m *Map) String() string {
 		fmt.Fprintf(&b, m.Properties.String())
 	}
 
-	if m.Tileset != nil {
-		for i := range m.Tileset {
-			fmt.Fprintf(&b, m.Tileset[i].String())
-		}
+	for _, tileset := range m.Tileset {
+		fmt.Fprintf(&b, tileset.String())
 	}
 
-	if m.Layer != nil {
-		for i := range m.Layer {
-			fmt.Fprintf(&b, m.Layer[i].String())
-		}
+	for _, layer := range m.Layer {
+		fmt.Fprintf(&b, layer.String())
+	}
+
+	for _, objectGroup := range m.ObjectGroup {
+		fmt.Fprintf(&b, objectGroup.String())
+	}
+
+	for _, imageLayer := range m.ImageLayer {
+		fmt.Fprintf(&b, imageLayer.String())
+	}
+
+	for _, group := range m.Group {
+		fmt.Fprintf(&b, group.String())
 	}
 
 	return b.String()
