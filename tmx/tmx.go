@@ -33,19 +33,20 @@ import (
 
 // TMX structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#tmx-map-format
 type TMX struct {
-	Map Map
+	Map    Map
+	Custom *Custom
 }
 
 // LoadTMX loads the xml of a tmx file into a TMX struct.
 func LoadTMX(path string) (*TMX, error) {
+	var err error
+
 	t := new(TMX)
 
-	t.Map.Image = make(map[string]*image.Image)
-	t.Map.Tile = make(map[int]*Tile)
-
-	// if !filepath.IsAbs(path) {
-	// 	return nil, fmt.Errorf("you must use the absolute path of the tmx file")
-	// }
+	t.Custom, err = NewCustom()
+	if err != nil {
+		return nil, fmt.Errorf("error creating custom: %w", err)
+	}
 
 	tmxDir, tmxFile := filepath.Split(path)
 
@@ -115,31 +116,11 @@ func LoadTMX(path string) (*TMX, error) {
 		}
 
 		// Add Image to custom Image Map
-		t.Map.Image[tileset.Image.Source] = &pngImage
+		t.Custom.Image[tileset.Image.Source] = &pngImage
 
+		// Add Tiles to custom Tile Map
 		for _, tile := range tileset.Tile {
-			fmt.Println(tileset.FirstGID)
-			// Calculate accurate GIDs using Tileset.FirstGID.
-			tile.ID -= -1 //tileset.FirstGID
-			// if tile.ID > tileset.FirstGID {
-			// 	tile.ID = tile.ID - tileset.FirstGID
-			// } else {
-			// 	tile.ID = tileset.FirstGID - tile.ID
-			// }
-
-			if tile.Animation != nil {
-				for _, frame := range tile.Animation.Frame {
-					frame.TileID -= 1 //tileset.FirstGID
-					// if frame.TileID > tileset.FirstGID {
-					// 	frame.TileID = frame.TileID - tileset.FirstGID
-					// } else {
-					// 	frame.TileID = tileset.FirstGID - frame.TileID
-					// }
-				}
-			}
-
-			// Add Tiles to custom Tile Map
-			t.Map.Tile[tile.ID] = tile
+			t.Custom.Tile[tile.ID] = tile
 		}
 	}
 
@@ -150,24 +131,7 @@ func LoadTMX(path string) (*TMX, error) {
 		if err != nil {
 			return nil, err
 		}
-
-		if layer.Data != nil {
-			for i, gid := range layer.Data.Tile.GID {
-				if gid != 0 {
-					// Get the Tileset of the current GID.
-					t, err := layer.GIDTileset(gid, t.Map.Tileset)
-					if err != nil {
-						return nil, err
-					}
-					// Get the real GID by subtracting the tileset firtst GID.
-					layer.Data.Tile.GID[i] -= t.FirstGID
-				}
-			}
-		}
 	}
-
-	// Subtract Tileset.FirstGID from CSV GIDs
-	// Subtract Tileset.FirstGID from Tile Animation Frames
 
 	return t, nil
 }
@@ -175,158 +139,3 @@ func LoadTMX(path string) (*TMX, error) {
 func (t *TMX) String() string {
 	return t.Map.String()
 }
-
-// type TMX struct {
-// 	Layer     [][][]int
-// 	Rectangle map[int]map[int]image.Rectangle
-// }
-
-// all paths in TMX file are relative to the TMX file
-// all paths in TSX file are relative to the TSX file
-
-// // NewMap unmarshalls an xml file into a struct.
-// func NewTMX(tmxPath string) (*TMX, error) {
-
-// 	bytes, err := ioutil.ReadFile(tmxPath)
-// 	if err != nil {
-// 		return nil, fmt.Errorf("error reading tmx file: %w", err)
-// 	}
-
-// 	tmxMap := &Map{}
-// 	err = xml.Unmarshal(bytes, &tmxMap)
-// 	if err != nil {
-// 		return nil, fmt.Errorf("error unmarshaling tmx bytes: %w", err)
-// 	}
-
-// 	tmxDir, tmxFile := path.Split(tmxPath)
-
-// 	log.Println(tmxDir, tmxFile)
-
-// 	tmx := &TMX{
-// 		Layer:     make([][][]int, len(tmxMap.Layer)),
-// 		Rectangle: make(map[int]map[int]image.Rectangle),
-// 	}
-
-// 	for i, tileset := range tmxMap.Tileset {
-
-// 		// Each Tileset has a slice of rectangles.
-// 		tmx.Rectangle[i] = make(map[int]image.Rectangle)
-
-// 		// TSX File Tileset.
-// 		if tileset.Source != "" {
-// 			tsxPath := ""
-// 			tsxDir, tsxFile := path.Split(tileset.Source)
-// 			log.Println(tsxDir, tsxFile)
-
-// 			if tsxDir == "" {
-// 				tsxPath = path.Join(tmxDir, tsxFile)
-// 			}
-// 			log.Println(tsxPath)
-
-// 			bytes, err := ioutil.ReadFile(tsxPath)
-// 			if err != nil {
-// 				return nil, fmt.Errorf("error reading tsx file: %w", err)
-// 			}
-// 			tsx := &Tileset{}
-// 			err = xml.Unmarshal(bytes, &tsx)
-// 			if err != nil {
-// 				return nil, fmt.Errorf("error unmarshaling tsx bytes: %w", err)
-// 			}
-
-// 			tileset = *tsx
-
-// 			spew.Dump(tsx.Tilewidth)
-// 			spew.Dump(tsx.Tileheight)
-
-// 			iw, err := strconv.Atoi(tileset.Image.Width)
-// 			if err != nil {
-// 				return nil, err
-// 			}
-
-// 			ih, err := strconv.Atoi(tileset.Image.Height)
-// 			if err != nil {
-// 				return nil, err
-// 			}
-
-// 			// opts := &ebiten.DrawImageOptions{}
-// 			// opts.GeoM.Translate(0, 0)
-// 			// opts.GeoM.Scale(1.0, 1.0)
-// 			tw, err := strconv.Atoi(tileset.Tilewidth)
-// 			if err != nil {
-// 				return nil, fmt.Errorf("error converting tsx tileset width: %w", err)
-// 			}
-
-// 			th, err := strconv.Atoi(tileset.Tileheight)
-// 			if err != nil {
-// 				return nil, fmt.Errorf("error converting tsx tileset height: %w", err)
-// 			}
-
-// 			j := 0
-// 			for r := 0; r < ih*th; r += th {
-// 				for c := 0; c < iw*tw; c += tw {
-// 					tmx.Rectangle[i][j] = image.Rectangle{
-// 						Min: image.Point{c, r},
-// 						Max: image.Point{c, r}.Add(image.Point{tw, th}),
-// 					}
-// 					j++
-// 				}
-// 			}
-
-// 			engine.Sheet[tileset.Name], err = NewSheet(
-// 				"/home/stevo/code/github.com/go-stuff/game/asset/rpg-overworld-tileset v1.2 (wonderdot)/Overworld_Tileset.png",
-// 				image.Point{tw, th},
-// 				nil)
-// 			if err != nil {
-// 				return nil, err
-// 			}
-// 		}
-
-// 		// Embedded Tileset.
-// 		if tileset.Image.Source != "" {
-// 			log.Println(tileset.Image.Source)
-
-// 			iw, err := strconv.Atoi(tileset.Image.Width)
-// 			if err != nil {
-// 				return nil, err
-// 			}
-
-// 			ih, err := strconv.Atoi(tileset.Image.Height)
-// 			if err != nil {
-// 				return nil, err
-// 			}
-
-// 			tw, err := strconv.Atoi(tileset.Tilewidth)
-// 			if err != nil {
-// 				return nil, err
-// 			}
-
-// 			th, err := strconv.Atoi(tileset.Tileheight)
-// 			if err != nil {
-// 				return nil, err
-// 			}
-
-// 			j := 0
-// 			for r := 0; r < ih*th; r += th {
-// 				for c := 0; c < iw*tw; c += tw {
-// 					tmx.Rectangle[i][j] = image.Rectangle{
-// 						Min: image.Point{c, r},
-// 						Max: image.Point{c, r}.Add(image.Point{tw, th}),
-// 					}
-// 					j++
-// 				}
-// 			}
-
-// 			engine.Sheet[tileset.Name], err = NewSheet(
-// 				//tileset.Image.Source,
-// 				"/home/stevo/code/github.com/go-stuff/game/asset/rpg-overworld-tileset v1.2 (wonderdot)/TropicalExtras_Tileset.png",
-// 				image.Point{iw, ih},
-// 				nil)
-// 			if err != nil {
-// 				return nil, err
-// 			}
-// 		}
-
-// 	}
-
-// 	return tmx, nil
-// }

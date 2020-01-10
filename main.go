@@ -11,18 +11,19 @@ import (
 func main() {
 	t, err := tmx.LoadTMX("/home/stevo/code/github.com/go-stuff/game/asset/rpg-overworld-tileset v1.2 (wonderdot)/Extras/Scenes.tmx")
 	//t, err := tmx.LoadTMX("./testdata/map.tmx")
+
 	if err != nil {
 		log.Fatal(err)
 	}
 	fmt.Println(t.String())
 
-	for _, tileset := range t.Map.Tileset {
-		fmt.Println(tileset.Image.String())
-		fmt.Println(tileset.FirstGID)
-	}
+	// for _, tileset := range t.Map.Tileset {
+	// 	fmt.Println(tileset.Image.String())
+	// 	fmt.Println(tileset.FirstGID)
+	// }
 
-	// for k, v := range t.Map.Tile {
-	// 	fmt.Println("key: ", k, ", value: ", v)
+	// for k := range t.Custom.Tile {
+	// 	fmt.Println("key: ", k)
 	// }
 
 	// gid, err := t.Map.Layer[0].GID(5, 1)

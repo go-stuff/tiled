@@ -19,6 +19,8 @@ type Tile struct {
 	Image       *Image         `xml:"image"`
 	ObjectGroup []*ObjectGroup `xml:"objectgroup"`
 	Animation   *Animation     `xml:"animation"`
+
+	Tileset *Tileset `xml:"-"`
 }
 
 func (t *Tile) String() string {
