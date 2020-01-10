@@ -64,6 +64,32 @@ func (c *Custom) UpdateAnimationTile(milliseconds int64) {
 	}
 }
 
+// Return Row, Column and GID or Return image.Rectangle
+// // Get the Tileset of the current GID.
+// tileset, err := layer.GIDTileset(gid, l.TMX.Map.Tileset)
+// if err != nil {
+// 	return err
+// }
+
+// // Get the real GID by subtracting the tileset firtst GID.
+// gid -= tileset.FirstGID
+
+// if l.TMX.Custom.TilesetTile[tileset][gid] != nil {
+// 	tile := l.TMX.Custom.TilesetTile[tileset][gid]
+// 	if tile.Animation != nil {
+// 		gid = tile.Animation.Frame[l.TMX.Custom.AnimationTile[tile].FrameIndex].TileID
+// 	}
+// }
+
+// // From the GID and Tileset calculate the row and column.
+// row = int(gid / tileset.Columns)
+// column = (gid % tileset.Columns)
+
+// image.Rectangle{
+// 	Min: image.Point{column * tileset.TileWidth, row * tileset.TileHeight},
+// 	Max: image.Point{(column * tileset.TileWidth) + tileset.TileWidth, (row * tileset.TileHeight) + tileset.TileHeight},
+// }
+
 func (c *Custom) String() string {
 	var b strings.Builder
 

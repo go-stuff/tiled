@@ -18,10 +18,10 @@ type Layer struct {
 	Y       int      `xml:"y,attr"`       // The y coordinate of the layer in tiles. Defaults to 0 and can not be changed in Tiled.
 	Width   int      `xml:"width,attr"`   // The width of the layer in tiles. Always the same as the map width for fixed-size maps.
 	Height  int      `xml:"height,attr"`  // The height of the layer in tiles. Always the same as the map height for fixed-size maps.
-	Opacity float32  `xml:"opacity,attr"` // The opacity of the layer as a value from 0 to 1. Defaults to 1.
+	Opacity float64  `xml:"opacity,attr"` // The opacity of the layer as a value from 0 to 1. Defaults to 1.
 	Visible bool     `xml:"visible,attr"` // Whether the layer is shown (1) or hidden (0). Defaults to 1.
-	OffsetX float32  `xml:"offsetx,attr"` // Rendering offset for this layer in pixels. Defaults to 0. (since 0.14)
-	OffsetY float32  `xml:"offsety,attr"` // Rendering offset for this layer in pixels. Defaults to 0. (since 0.14)
+	OffsetX float64  `xml:"offsetx,attr"` // Rendering offset for this layer in pixels. Defaults to 0. (since 0.14)
+	OffsetY float64  `xml:"offsety,attr"` // Rendering offset for this layer in pixels. Defaults to 0. (since 0.14)
 
 	// Can contain: <properties>, <data>
 	Properties *Properties `xml:"properties"`

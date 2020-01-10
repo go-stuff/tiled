@@ -12,7 +12,7 @@ type Tile struct {
 	ID          int      `xml:"id,attr"`          // The local tile ID within its tileset.
 	Type        string   `xml:"type,attr"`        // The type of the tile. Refers to an object type and is used by tile objects. (optional) (since 1.0)
 	Terrain     string   `xml:"terrain,attr"`     // Defines the terrain type of each corner of the tile, given as comma-separated indexes in the terrain types array in the order top-left, top-right, bottom-left, bottom-right. Leaving out a value means that corner has no terrain. (optional)
-	Probability float32  `xml:"probability,attr"` // A percentage indicating the probability that this tile is chosen when it competes with others while editing with the terrain tool. (optional)
+	Probability float64  `xml:"probability,attr"` // A percentage indicating the probability that this tile is chosen when it competes with others while editing with the terrain tool. (optional)
 
 	// Can contain: <properties>, <image> (since 0.9), <objectgroup>, <animation>
 	Properties  *Properties    `xml:"properties"`

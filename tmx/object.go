@@ -8,11 +8,11 @@ type Object struct {
 	ID       int      `xml:"id,attr"`       // Unique ID of the object. Each object that is placed on a map gets a unique id. Even if an object was deleted, no object gets the same ID. Can not be changed in Tiled. (since Tiled 0.11)
 	Name     string   `xml:"name,attr"`     //  The name of the object. An arbitrary string (defaults to “”).
 	Type     string   `xml:"type,attr"`     //  The type of the object. An arbitrary string (defaults to “”).
-	X        int      `xml:"x,attr"`        //  The x coordinate of the object in pixels.
-	Y        int      `xml:"y,attr"`        //  The y coordinate of the object in pixels.
-	Width    int      `xml:"width,attr"`    //  The width of the object in pixels (defaults to 0).
-	Height   int      `xml:"height,attr"`   //  The height of the object in pixels (defaults to 0).
-	Rotation int      `xml:"rotation,attr"` //  The rotation of the object in degrees clockwise around (x, y) (defaults to 0).
+	X        float64  `xml:"x,attr"`        //  The x coordinate of the object in pixels.
+	Y        float64  `xml:"y,attr"`        //  The y coordinate of the object in pixels.
+	Width    float64  `xml:"width,attr"`    //  The width of the object in pixels (defaults to 0).
+	Height   float64  `xml:"height,attr"`   //  The height of the object in pixels (defaults to 0).
+	Rotation float64  `xml:"rotation,attr"` //  The rotation of the object in degrees clockwise around (x, y) (defaults to 0).
 	GID      int      `xml:"gid,attr"`      //  A reference to a tile (optional).
 	Visible  bool     `xml:"visible,attr"`  //  Whether the object is shown (1) or hidden (0). Defaults to 1.
 	Template string   `xml:"template,attr"` //  A reference to a template file (optional).
