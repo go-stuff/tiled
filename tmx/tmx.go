@@ -123,7 +123,12 @@ func LoadTMX(path string) (*TMX, error) {
 			if t.Custom.TilesetTile[tileset] == nil {
 				t.Custom.TilesetTile[tileset] = make(map[int]*Tile)
 			}
+
 			t.Custom.TilesetTile[tileset][tile.ID] = tile
+
+			if tile.Animation != nil {
+				t.Custom.AnimationTile[tile] = new(AnimationTile)
+			}
 		}
 	}
 
