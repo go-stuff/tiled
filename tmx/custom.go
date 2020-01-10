@@ -42,6 +42,28 @@ func NewCustom() (*Custom, error) {
 	return custom, nil
 }
 
+// UpdateAnimationTile updates the animation frame on each animated tile.
+func (c *Custom) UpdateAnimationTile(milliseconds int64) {
+	for tile, animaionTile := range c.AnimationTile {
+		// Update the Milliseconds of this Particular Tile Frame
+		animaionTile.FrameDuration += milliseconds
+
+		// If the elapsed time is greater than the current frame duration, go to the next frame index and
+		// reset time.
+		if animaionTile.FrameDuration >
+			int64(tile.Animation.Frame[animaionTile.FrameIndex].Duration) {
+			animaionTile.FrameIndex++
+			animaionTile.FrameDuration = 0
+		}
+
+		// If the current frame equals the last frame start over.
+		if animaionTile.FrameIndex == len(tile.Animation.Frame) {
+			animaionTile.FrameIndex = 0
+			animaionTile.FrameDuration = 0
+		}
+	}
+}
+
 func (c *Custom) String() string {
 	var b strings.Builder
 
