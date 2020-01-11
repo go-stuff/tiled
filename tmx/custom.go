@@ -79,15 +79,10 @@ func (c *Custom) gidTileset(gid int, tileset []*Tileset) (*Tileset, error) {
 }
 
 // GIDRectangle returns an image.Rectangle and Tileset of a GID.
-func (c *Custom) GIDRectangle(gid int) (image.Rectangle, *Tileset, error) {
-
-	// If tmx.Map is not initialized yet, return an empty rectangle.
-	if c.m == nil {
-		return image.Rectangle{}, nil, nil
-	}
+func (c *Custom) GIDRectangle(gid int, tilesets []*Tileset) (image.Rectangle, *Tileset, error) {
 
 	// Get the Tileset of the current GID.
-	tileset, err := c.gidTileset(gid, c.m.Tileset)
+	tileset, err := c.gidTileset(gid, tilesets)
 	if err != nil {
 		return image.Rectangle{}, nil, err
 	}
