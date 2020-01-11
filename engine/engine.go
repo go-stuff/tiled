@@ -15,23 +15,35 @@ import (
 // AnimationTile has fields to keep track of animations.
 type AnimationTile struct {
 	// FrameIndex keeps track of the current animated frame.
-	FrameIndex int `xml:"-"`
+	FrameIndex int
 	// FrameDuration keeps track of how long the current frame has been drawn.
-	FrameDuration int64 `xml:"-"`
+	FrameDuration int64
+}
+
+type LayerRectangle struct {
+	X         float64
+	Y         float64
+	Rectangle image.Rectangle
 }
 
 // Engine can be used when creating games in golang.
 type Engine struct {
 	Map *tmx.Map
 
+	ScaleX float64
+	ScaleY float64
+
 	// Image is a custom field, it is a map of tileset images, accessed by image source path.
-	Image map[string]*ebiten.Image `xml:"-"`
+	Image map[string]*ebiten.Image
 
 	// TilesetTile is a custom field, it is a map of tile, accessed by GID.
-	TilesetTile map[*tmx.Tileset]map[int]*tmx.Tile `xml:"-"`
+	TilesetTile map[*tmx.Tileset]map[int]*tmx.Tile
 
 	// AnimationTile is map to keep track of animation frames.
-	AnimationTile map[*tmx.Tile]*AnimationTile `xml:"-"`
+	AnimationTile map[*tmx.Tile]*AnimationTile
+
+	// LayerRectangle is a map to store rectangles for less compute.
+	LayerRectangle map[*tmx.Layer]map[int]*LayerRectangle
 }
 
 // LoadEngine loads a tmx file as an engine to be used when creating games in golang.
@@ -45,6 +57,9 @@ func LoadEngine(source string) (*Engine, error) {
 
 	e.Map = tmxFile.Map
 
+	e.ScaleX = 1.0
+	e.ScaleY = 1.0
+
 	// map[Tileset.Source]*image.Image
 	e.Image = make(map[string]*ebiten.Image)
 
@@ -54,19 +69,10 @@ func LoadEngine(source string) (*Engine, error) {
 	// map[*Tile]*AnimationTile
 	e.AnimationTile = make(map[*tmx.Tile]*AnimationTile)
 
+	// map[*Layer][Data.GID]*image.Rectangle
+	e.LayerRectangle = make(map[*tmx.Layer]map[int]*LayerRectangle)
+
 	for _, tileset := range e.Map.Tileset {
-
-		// imgBytes, err := ioutil.ReadFile(tileset.Image.Source)
-		// if err != nil {
-		// 	return nil, fmt.Errorf("error reading image file: %w", err)
-		// }
-		// pngImage, _, err := image.Decode(bytes.NewReader(imgBytes))
-		// if err != nil {
-		// 	return nil, fmt.Errorf("error decoding image file: %w", err)
-		// }
-
-		// // Add Image to custom Image Map
-		// e.Image[tileset.Image.Source] = &pngImage
 
 		// Load images as *ebiten.Image.
 		img, _, err := ebitenutil.NewImageFromFile(tileset.Image.Source, ebiten.FilterDefault)
@@ -87,6 +93,65 @@ func LoadEngine(source string) (*Engine, error) {
 				e.AnimationTile[tile] = new(AnimationTile)
 			}
 		}
+	}
+
+	for _, layer := range e.Map.Layer {
+
+		e.LayerRectangle[layer] = make(map[int]*LayerRectangle)
+
+		x, y := 0, 0
+
+		for _, gid := range layer.Data.Tile.GID {
+			// Increment y co-ordinate.
+			if x >= layer.Width {
+				x = 0
+				y++
+			}
+
+			// If tile GID on a Layer is 0, it is empty, skip it, still increment x co-ordinate.
+			if gid == 0 {
+				x++
+				continue
+			}
+
+			// Get the image.Rectangle of the GID on its Tileset.
+			rectangle, tileset, err := e.GIDRectangle(gid, e.Map.Tileset)
+			if err != nil {
+				return nil, err
+			}
+
+			e.LayerRectangle[layer][gid] = new(LayerRectangle)
+
+			e.LayerRectangle[layer][gid].X = float64(x*tileset.TileWidth) * e.ScaleX
+			e.LayerRectangle[layer][gid].Y = float64(y*tileset.TileHeight) * e.ScaleY
+
+			e.LayerRectangle[layer][gid].Rectangle = rectangle
+
+			// Increment x co-ordinate.
+			x++
+
+			// // Skip tiles not visible by the camera.
+			// w, h := screen.Size()
+			// if float64(x*tileset.TileWidth)*game.ScaleX > float64(w) || float64(y*tileset.TileHeight)*game.ScaleY > float64(h) {
+			// 	x++
+			// 	continue
+			// }
+
+			// offsetX, offsetY := 100.0, 100.0
+
+			// Translage tile on the screen based on the x and y co-ordinates.
+			// opts := &ebiten.DrawImageOptions{}
+			// opts.GeoM.Scale(game.ScaleX, game.ScaleY)
+			// opts.GeoM.Translate(float64(x*tileset.TileWidth)*game.ScaleX, float64(y*tileset.TileHeight)*game.ScaleY)
+
+			// Draw the tile to the screen.
+			// screen.DrawImage(
+			// 	l.Engine.Image[tileset.Image.Source].SubImage(rectangle).(*ebiten.Image),
+			// 	//game.Image[tileset.Image.Source].SubImage(rectangle).(*ebiten.Image),
+			// 	opts,
+			// )
+		}
+
 	}
 
 	return e, nil
