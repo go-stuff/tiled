@@ -34,7 +34,7 @@ import (
 // TMX structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#tmx-map-format
 type TMX struct {
 	Map    *Map
-	Custom *Custom
+	Engine *Engine
 }
 
 // LoadTMX loads the xml of a tmx file into a TMX struct.
@@ -43,7 +43,7 @@ func LoadTMX(path string) (*TMX, error) {
 
 	t := new(TMX)
 
-	t.Custom, err = NewCustom(t.Map)
+	t.Engine, err = NewEngine()
 	if err != nil {
 		return nil, fmt.Errorf("error creating custom: %w", err)
 	}
@@ -116,18 +116,18 @@ func LoadTMX(path string) (*TMX, error) {
 		}
 
 		// Add Image to custom Image Map
-		t.Custom.Image[tileset.Image.Source] = &pngImage
+		t.Engine.Image[tileset.Image.Source] = &pngImage
 
 		// Add Tiles to custom Tile Map
 		for _, tile := range tileset.Tile {
-			if t.Custom.TilesetTile[tileset] == nil {
-				t.Custom.TilesetTile[tileset] = make(map[int]*Tile)
+			if t.Engine.TilesetTile[tileset] == nil {
+				t.Engine.TilesetTile[tileset] = make(map[int]*Tile)
 			}
 
-			t.Custom.TilesetTile[tileset][tile.ID] = tile
+			t.Engine.TilesetTile[tileset][tile.ID] = tile
 
 			if tile.Animation != nil {
-				t.Custom.AnimationTile[tile] = new(AnimationTile)
+				t.Engine.AnimationTile[tile] = new(AnimationTile)
 			}
 		}
 	}

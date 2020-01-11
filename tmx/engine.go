@@ -14,8 +14,8 @@ type AnimationTile struct {
 	FrameDuration int64 `xml:"-"`
 }
 
-// Custom is for use with my own game engine.
-type Custom struct {
+// Engine can be used when creating games in golang.
+type Engine struct {
 	m *Map
 
 	// Image is a custom field, it is a map of tileset images, accessed by image source path.
@@ -28,27 +28,25 @@ type Custom struct {
 	AnimationTile map[*Tile]*AnimationTile `xml:"-"`
 }
 
-// NewCustom initializes a Custom structure.
-func NewCustom(m *Map) (*Custom, error) {
-	c := new(Custom)
-
-	c.m = m
+// NewEngine initializes a tmx engine.
+func NewEngine() (*Engine, error) {
+	e := new(Engine)
 
 	// map[Tileset.Source]*image.Image
-	c.Image = make(map[string]*image.Image)
+	e.Image = make(map[string]*image.Image)
 
 	// map[GID]*Tile
-	c.TilesetTile = make(map[*Tileset]map[int]*Tile)
+	e.TilesetTile = make(map[*Tileset]map[int]*Tile)
 
 	// map[*Tile]*AnimationTile
-	c.AnimationTile = make(map[*Tile]*AnimationTile)
+	e.AnimationTile = make(map[*Tile]*AnimationTile)
 
-	return c, nil
+	return e, nil
 }
 
 // UpdateAnimationTile updates the animation frame on each animated tile.
-func (c *Custom) UpdateAnimationTile(milliseconds int64) {
-	for tile, animaionTile := range c.AnimationTile {
+func (e *Engine) UpdateAnimationTile(milliseconds int64) {
+	for tile, animaionTile := range e.AnimationTile {
 		// Update the Milliseconds of this Particular Tile Frame
 		animaionTile.FrameDuration += milliseconds
 
@@ -68,8 +66,8 @@ func (c *Custom) UpdateAnimationTile(milliseconds int64) {
 	}
 }
 
-// gidTileset returns the tileset a GID resides on.
-func (c *Custom) gidTileset(gid int, tileset []*Tileset) (*Tileset, error) {
+// GIDTileset returns the tileset a GID resides on.
+func (e *Engine) GIDTileset(gid int, tileset []*Tileset) (*Tileset, error) {
 	for _, tileset := range tileset {
 		if gid >= tileset.FirstGID && gid < tileset.FirstGID+tileset.TileCount {
 			return tileset, nil
@@ -79,10 +77,10 @@ func (c *Custom) gidTileset(gid int, tileset []*Tileset) (*Tileset, error) {
 }
 
 // GIDRectangle returns an image.Rectangle and Tileset of a GID.
-func (c *Custom) GIDRectangle(gid int, tilesets []*Tileset) (image.Rectangle, *Tileset, error) {
+func (e *Engine) GIDRectangle(gid int, tilesets []*Tileset) (image.Rectangle, *Tileset, error) {
 
 	// Get the Tileset of the current GID.
-	tileset, err := c.gidTileset(gid, tilesets)
+	tileset, err := e.GIDTileset(gid, tilesets)
 	if err != nil {
 		return image.Rectangle{}, nil, err
 	}
@@ -90,10 +88,10 @@ func (c *Custom) GIDRectangle(gid int, tilesets []*Tileset) (image.Rectangle, *T
 	// Get the real GID by subtracting the tileset firtst GID.
 	gid -= tileset.FirstGID
 
-	if c.TilesetTile[tileset][gid] != nil {
-		tile := c.TilesetTile[tileset][gid]
+	if e.TilesetTile[tileset][gid] != nil {
+		tile := e.TilesetTile[tileset][gid]
 		if tile.Animation != nil {
-			gid = tile.Animation.Frame[c.AnimationTile[tile].FrameIndex].TileID
+			gid = tile.Animation.Frame[e.AnimationTile[tile].FrameIndex].TileID
 		}
 	}
 
@@ -109,13 +107,13 @@ func (c *Custom) GIDRectangle(gid int, tilesets []*Tileset) (image.Rectangle, *T
 	return rectangle, tileset, nil
 }
 
-func (c *Custom) String() string {
+func (e *Engine) String() string {
 	var b strings.Builder
 
 	fmt.Fprintf(&b, "Custom:\n")
 
-	if c.Image != nil {
-		fmt.Fprintf(&b, "\tImage: (%T) %v\n", c.Image, c.Image)
+	if e.Image != nil {
+		fmt.Fprintf(&b, "\tImage: (%T) %v\n", e.Image, e.Image)
 	}
 
 	return b.String()
