@@ -78,14 +78,14 @@ func (c *Custom) gidTileset(gid int, tileset []*Tileset) (*Tileset, error) {
 	return nil, fmt.Errorf("tileset not found")
 }
 
-// LayerRectangle returns an image.Rectangle of a GID.
+// GIDRectangle returns an image.Rectangle and Tileset of a GID.
 func (c *Custom) GIDRectangle(gid int) (image.Rectangle, *Tileset, error) {
 	// Get the Tileset of the current GID.
 	tileset, err := c.gidTileset(gid, c.m.Tileset)
 	if err != nil {
 		return image.Rectangle{}, nil, err
 	}
-
+	fmt.Println(tileset)
 	// Get the real GID by subtracting the tileset firtst GID.
 	gid -= tileset.FirstGID
 
@@ -100,10 +100,12 @@ func (c *Custom) GIDRectangle(gid int) (image.Rectangle, *Tileset, error) {
 	row := int(gid / tileset.Columns)
 	column := (gid % tileset.Columns)
 
-	return image.Rectangle{
+	rectangle := image.Rectangle{
 		Min: image.Point{column * tileset.TileWidth, row * tileset.TileHeight},
 		Max: image.Point{(column * tileset.TileWidth) + tileset.TileWidth, (row * tileset.TileHeight) + tileset.TileHeight},
-	}, tileset, nil
+	}
+
+	return rectangle, tileset, nil
 }
 
 func (c *Custom) String() string {
