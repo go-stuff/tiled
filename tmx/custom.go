@@ -80,12 +80,18 @@ func (c *Custom) gidTileset(gid int, tileset []*Tileset) (*Tileset, error) {
 
 // GIDRectangle returns an image.Rectangle and Tileset of a GID.
 func (c *Custom) GIDRectangle(gid int) (image.Rectangle, *Tileset, error) {
+
+	// If tmx.Map is not initialized yet, return an empty rectangle.
+	if c.m == nil {
+		return image.Rectangle{}, nil, nil
+	}
+
 	// Get the Tileset of the current GID.
 	tileset, err := c.gidTileset(gid, c.m.Tileset)
 	if err != nil {
 		return image.Rectangle{}, nil, err
 	}
-	fmt.Println(tileset)
+
 	// Get the real GID by subtracting the tileset firtst GID.
 	gid -= tileset.FirstGID
 
