@@ -1,9 +1,15 @@
-package tmx
+package engine
 
 import (
 	"fmt"
 	"image"
+	_ "image/jpeg" // register JPEG decoder
+	_ "image/png"  // register PNG decoder
 	"strings"
+
+	"github.com/go-stuff/tiled/tmx"
+	"github.com/hajimehoshi/ebiten"
+	"github.com/hajimehoshi/ebiten/ebitenutil"
 )
 
 // AnimationTile has fields to keep track of animations.
@@ -16,30 +22,72 @@ type AnimationTile struct {
 
 // Engine can be used when creating games in golang.
 type Engine struct {
-	m *Map
+	Map *tmx.Map
 
 	// Image is a custom field, it is a map of tileset images, accessed by image source path.
-	Image map[string]*image.Image `xml:"-"`
+	Image map[string]*ebiten.Image `xml:"-"`
 
 	// TilesetTile is a custom field, it is a map of tile, accessed by GID.
-	TilesetTile map[*Tileset]map[int]*Tile `xml:"-"`
+	TilesetTile map[*tmx.Tileset]map[int]*tmx.Tile `xml:"-"`
 
 	// AnimationTile is map to keep track of animation frames.
-	AnimationTile map[*Tile]*AnimationTile `xml:"-"`
+	AnimationTile map[*tmx.Tile]*AnimationTile `xml:"-"`
 }
 
-// NewEngine initializes a tmx engine.
-func NewEngine() (*Engine, error) {
+// LoadEngine loads a tmx file as an engine to be used when creating games in golang.
+func LoadEngine(source string) (*Engine, error) {
 	e := new(Engine)
 
+	tmxFile, err := tmx.LoadTMX(source)
+	if err != nil {
+		return nil, err
+	}
+
+	e.Map = tmxFile.Map
+
 	// map[Tileset.Source]*image.Image
-	e.Image = make(map[string]*image.Image)
+	e.Image = make(map[string]*ebiten.Image)
 
 	// map[GID]*Tile
-	e.TilesetTile = make(map[*Tileset]map[int]*Tile)
+	e.TilesetTile = make(map[*tmx.Tileset]map[int]*tmx.Tile)
 
 	// map[*Tile]*AnimationTile
-	e.AnimationTile = make(map[*Tile]*AnimationTile)
+	e.AnimationTile = make(map[*tmx.Tile]*AnimationTile)
+
+	for _, tileset := range e.Map.Tileset {
+
+		// imgBytes, err := ioutil.ReadFile(tileset.Image.Source)
+		// if err != nil {
+		// 	return nil, fmt.Errorf("error reading image file: %w", err)
+		// }
+		// pngImage, _, err := image.Decode(bytes.NewReader(imgBytes))
+		// if err != nil {
+		// 	return nil, fmt.Errorf("error decoding image file: %w", err)
+		// }
+
+		// // Add Image to custom Image Map
+		// e.Image[tileset.Image.Source] = &pngImage
+
+		// Load images as *ebiten.Image.
+		img, _, err := ebitenutil.NewImageFromFile(tileset.Image.Source, ebiten.FilterDefault)
+		if err != nil {
+			return nil, err
+		}
+		e.Image[tileset.Image.Source] = img
+
+		// Add Tiles to custom Tile Map
+		for _, tile := range tileset.Tile {
+			if e.TilesetTile[tileset] == nil {
+				e.TilesetTile[tileset] = make(map[int]*tmx.Tile)
+			}
+
+			e.TilesetTile[tileset][tile.ID] = tile
+
+			if tile.Animation != nil {
+				e.AnimationTile[tile] = new(AnimationTile)
+			}
+		}
+	}
 
 	return e, nil
 }
@@ -67,7 +115,7 @@ func (e *Engine) UpdateAnimationTile(milliseconds int64) {
 }
 
 // GIDTileset returns the tileset a GID resides on.
-func (e *Engine) GIDTileset(gid int, tileset []*Tileset) (*Tileset, error) {
+func (e *Engine) GIDTileset(gid int, tileset []*tmx.Tileset) (*tmx.Tileset, error) {
 	for _, tileset := range tileset {
 		if gid >= tileset.FirstGID && gid < tileset.FirstGID+tileset.TileCount {
 			return tileset, nil
@@ -77,7 +125,7 @@ func (e *Engine) GIDTileset(gid int, tileset []*Tileset) (*Tileset, error) {
 }
 
 // GIDRectangle returns an image.Rectangle and Tileset of a GID.
-func (e *Engine) GIDRectangle(gid int, tilesets []*Tileset) (image.Rectangle, *Tileset, error) {
+func (e *Engine) GIDRectangle(gid int, tilesets []*tmx.Tileset) (image.Rectangle, *tmx.Tileset, error) {
 
 	// Get the Tileset of the current GID.
 	tileset, err := e.GIDTileset(gid, tilesets)

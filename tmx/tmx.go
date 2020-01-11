@@ -20,10 +20,6 @@
 package tmx
 
 import (
-	"bytes"
-	"image"
-	_ "image/jpeg" // register JPEG decoder
-	_ "image/png"  // register PNG decoder
 	"path/filepath"
 
 	"encoding/xml"
@@ -33,26 +29,20 @@ import (
 
 // TMX structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#tmx-map-format
 type TMX struct {
-	Map    *Map
-	Engine *Engine
+	Map *Map
 }
 
 // LoadTMX loads the xml of a tmx file into a TMX struct.
-func LoadTMX(path string) (*TMX, error) {
+func LoadTMX(source string) (*TMX, error) {
 	var err error
 
 	t := new(TMX)
 
-	t.Engine, err = NewEngine()
-	if err != nil {
-		return nil, fmt.Errorf("error creating custom: %w", err)
-	}
-
-	tmxDir, tmxFile := filepath.Split(path)
+	tmxDir, tmxFile := filepath.Split(source)
 
 	fmt.Println("tmxDir: ", tmxDir, ", tmxFile: ", tmxFile)
 
-	tmxBytes, err := ioutil.ReadFile(path)
+	tmxBytes, err := ioutil.ReadFile(source)
 	if err != nil {
 		return nil, fmt.Errorf("error reading tmx file: %w", err)
 	}
@@ -106,30 +96,6 @@ func LoadTMX(path string) (*TMX, error) {
 			tileset.Image.Source = imgPath
 		}
 
-		imgBytes, err := ioutil.ReadFile(tileset.Image.Source)
-		if err != nil {
-			return nil, fmt.Errorf("error reading image file: %w", err)
-		}
-		pngImage, _, err := image.Decode(bytes.NewReader(imgBytes))
-		if err != nil {
-			return nil, fmt.Errorf("error decoding image file: %w", err)
-		}
-
-		// Add Image to custom Image Map
-		t.Engine.Image[tileset.Image.Source] = &pngImage
-
-		// Add Tiles to custom Tile Map
-		for _, tile := range tileset.Tile {
-			if t.Engine.TilesetTile[tileset] == nil {
-				t.Engine.TilesetTile[tileset] = make(map[int]*Tile)
-			}
-
-			t.Engine.TilesetTile[tileset][tile.ID] = tile
-
-			if tile.Animation != nil {
-				t.Engine.AnimationTile[tile] = new(AnimationTile)
-			}
-		}
 	}
 
 	for _, layer := range t.Map.Layer {
@@ -139,6 +105,7 @@ func LoadTMX(path string) (*TMX, error) {
 		if err != nil {
 			return nil, err
 		}
+
 	}
 
 	return t, nil

@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/go-stuff/tiled/engine"
 	"github.com/go-stuff/tiled/tmx"
 )
 
@@ -16,6 +17,12 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Println(t.String())
+
+	e, err := engine.LoadEngine("/home/stevo/code/github.com/go-stuff/rpg/asset/rpg-overworld-tileset v1.2 (wonderdot)/Extras/Scenes.tmx")
+	if err != nil {
+		log.Fatal(err)
+	}
+	fmt.Println(e.String())
 
 	// for _, tileset := range t.Map.Tileset {
 	// 	fmt.Println(tileset.Image.String())
