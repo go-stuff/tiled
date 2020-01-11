@@ -23,6 +23,7 @@ type AnimationTile struct {
 type LayerRectangle struct {
 	X         float64
 	Y         float64
+	Image     *ebiten.Image
 	Rectangle image.Rectangle
 }
 
@@ -126,6 +127,8 @@ func LoadEngine(source string) (*Engine, error) {
 			e.LayerRectangle[layer][gid].Y = float64(y*tileset.TileHeight) * e.ScaleY
 
 			e.LayerRectangle[layer][gid].Rectangle = rectangle
+
+			e.LayerRectangle[layer][gid].Image = e.Image[tileset.Image.Source]
 
 			// Increment x co-ordinate.
 			x++
