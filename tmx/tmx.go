@@ -33,7 +33,7 @@ import (
 
 // TMX structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#tmx-map-format
 type TMX struct {
-	Map    Map
+	Map    *Map
 	Custom *Custom
 }
 
@@ -43,7 +43,7 @@ func LoadTMX(path string) (*TMX, error) {
 
 	t := new(TMX)
 
-	t.Custom, err = NewCustom()
+	t.Custom, err = NewCustom(t.Map)
 	if err != nil {
 		return nil, fmt.Errorf("error creating custom: %w", err)
 	}

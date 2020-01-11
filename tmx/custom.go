@@ -16,6 +16,8 @@ type AnimationTile struct {
 
 // Custom is for use with my own game engine.
 type Custom struct {
+	m *Map
+
 	// Image is a custom field, it is a map of tileset images, accessed by image source path.
 	Image map[string]*image.Image `xml:"-"`
 
@@ -27,19 +29,21 @@ type Custom struct {
 }
 
 // NewCustom initializes a Custom structure.
-func NewCustom() (*Custom, error) {
-	custom := new(Custom)
+func NewCustom(m *Map) (*Custom, error) {
+	c := new(Custom)
+
+	c.m = m
 
 	// map[Tileset.Source]*image.Image
-	custom.Image = make(map[string]*image.Image)
+	c.Image = make(map[string]*image.Image)
 
 	// map[GID]*Tile
-	custom.TilesetTile = make(map[*Tileset]map[int]*Tile)
+	c.TilesetTile = make(map[*Tileset]map[int]*Tile)
 
 	// map[*Tile]*AnimationTile
-	custom.AnimationTile = make(map[*Tile]*AnimationTile)
+	c.AnimationTile = make(map[*Tile]*AnimationTile)
 
-	return custom, nil
+	return c, nil
 }
 
 // UpdateAnimationTile updates the animation frame on each animated tile.
@@ -64,31 +68,43 @@ func (c *Custom) UpdateAnimationTile(milliseconds int64) {
 	}
 }
 
-// Return Row, Column and GID or Return image.Rectangle
-// // Get the Tileset of the current GID.
-// tileset, err := layer.GIDTileset(gid, l.TMX.Map.Tileset)
-// if err != nil {
-// 	return err
-// }
+// gidTileset returns the tileset a GID resides on.
+func (c *Custom) gidTileset(gid int, tileset []*Tileset) (*Tileset, error) {
+	for _, tileset := range tileset {
+		if gid >= tileset.FirstGID && gid < tileset.FirstGID+tileset.TileCount {
+			return tileset, nil
+		}
+	}
+	return nil, fmt.Errorf("tileset not found")
+}
 
-// // Get the real GID by subtracting the tileset firtst GID.
-// gid -= tileset.FirstGID
+// LayerRectangle returns an image.Rectangle of a GID.
+func (c *Custom) LayerRectangle(gid int) (image.Rectangle, error) {
+	// Get the Tileset of the current GID.
+	tileset, err := c.gidTileset(gid, c.m.Tileset)
+	if err != nil {
+		return image.Rectangle{}, err
+	}
 
-// if l.TMX.Custom.TilesetTile[tileset][gid] != nil {
-// 	tile := l.TMX.Custom.TilesetTile[tileset][gid]
-// 	if tile.Animation != nil {
-// 		gid = tile.Animation.Frame[l.TMX.Custom.AnimationTile[tile].FrameIndex].TileID
-// 	}
-// }
+	// Get the real GID by subtracting the tileset firtst GID.
+	gid -= tileset.FirstGID
 
-// // From the GID and Tileset calculate the row and column.
-// row = int(gid / tileset.Columns)
-// column = (gid % tileset.Columns)
+	if c.TilesetTile[tileset][gid] != nil {
+		tile := c.TilesetTile[tileset][gid]
+		if tile.Animation != nil {
+			gid = tile.Animation.Frame[c.AnimationTile[tile].FrameIndex].TileID
+		}
+	}
 
-// image.Rectangle{
-// 	Min: image.Point{column * tileset.TileWidth, row * tileset.TileHeight},
-// 	Max: image.Point{(column * tileset.TileWidth) + tileset.TileWidth, (row * tileset.TileHeight) + tileset.TileHeight},
-// }
+	// From the GID and Tileset calculate the row and column.
+	row := int(gid / tileset.Columns)
+	column := (gid % tileset.Columns)
+
+	return image.Rectangle{
+		Min: image.Point{column * tileset.TileWidth, row * tileset.TileHeight},
+		Max: image.Point{(column * tileset.TileWidth) + tileset.TileWidth, (row * tileset.TileHeight) + tileset.TileHeight},
+	}, nil
+}
 
 func (c *Custom) String() string {
 	var b strings.Builder
