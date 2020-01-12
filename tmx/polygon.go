@@ -23,9 +23,9 @@ func (p *Polygon) decodePoints() error {
 
 	rawPoints := strings.Split(p.RawPoints, " ")
 
-	p.Points = make([]*Point, len(rawPoints), len(rawPoints))
+	//p.Points = make([]*Point, len(rawPoints), len(rawPoints))
 
-	for i, rawPoint := range rawPoints {
+	for _, rawPoint := range rawPoints {
 
 		xy := strings.Split(rawPoint, ",")
 		if len(xy) != 2 {
@@ -42,10 +42,15 @@ func (p *Polygon) decodePoints() error {
 			return err
 		}
 
-		p.Points[i] = &Point{
+		// p.Points[i] = &Point{
+		// 	X: int(x),
+		// 	Y: int(y),
+		// }
+
+		p.Points = append(p.Points, &Point{
 			X: int(x),
 			Y: int(y),
-		}
+		})
 	}
 
 	return nil

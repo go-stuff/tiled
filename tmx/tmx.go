@@ -112,9 +112,9 @@ func LoadTMX(source string) (*TMX, error) {
 
 		for _, object := range objectGroup.Object {
 
-			if object.Polygon != nil {
+			for _, polygon := range object.Polygon {
 
-				err = object.Polygon.decodePoints()
+				err = polygon.decodePoints()
 				if err != nil {
 					return nil, err
 				}

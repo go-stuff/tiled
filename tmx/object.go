@@ -39,7 +39,7 @@ type Object struct {
 	Properties *Properties `xml:"properties"`
 	// TODO ellipse
 	// TODO point
-	Polygon *Polygon `xml:"polygon"`
+	Polygon []*Polygon `xml:"polygon"`
 	// TODO polyline
 	// TODO text
 	Image *Image `xml:"image"`
@@ -65,12 +65,11 @@ func (o *Object) String() string {
 		fmt.Fprintf(&b, o.Properties.String())
 	}
 
-	if o.Polygon != nil {
-		if o.Polygon.Points != nil {
-			for _, point := range o.Polygon.Points {
-				fmt.Fprintf(&b, point.String())
-			}
+	for _, polygon := range o.Polygon {
+		for _, point := range polygon.Points {
+			fmt.Fprintf(&b, point.String())
 		}
+
 	}
 
 	if o.Image != nil {
