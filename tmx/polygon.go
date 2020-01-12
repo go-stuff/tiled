@@ -19,11 +19,11 @@ type Polygon struct {
 	Points []*Point
 }
 
-func (p *Polygon) ParsePoints() error {
+func (p *Polygon) decodePoints() error {
 
 	rawPoints := strings.Split(p.RawPoints, " ")
 
-	//p.Points = make(p.Points, len(rawPoints), len(rawPoints))
+	p.Points = make([]*Point, len(rawPoints), len(rawPoints))
 
 	for i, rawPoint := range rawPoints {
 
@@ -46,8 +46,6 @@ func (p *Polygon) ParsePoints() error {
 			X: int(x),
 			Y: int(y),
 		}
-
-		// p.Points = append(p.Points, Point{int(x), int(y)})
 	}
 
 	return nil
@@ -58,6 +56,10 @@ func (p *Polygon) String() string {
 
 	fmt.Fprintf(&b, "Polygon:\n")
 	fmt.Fprintf(&b, "\tRaw Points: (%T) %q\n", p.RawPoints, p.RawPoints)
+
+	for _, point := range p.Points {
+		fmt.Fprintf(&b, point.String())
+	}
 
 	return b.String()
 }
