@@ -66,10 +66,7 @@ func (o *Object) String() string {
 	}
 
 	for _, polygon := range o.Polygon {
-		for _, point := range polygon.Points {
-			fmt.Fprintf(&b, point.String())
-		}
-
+		fmt.Fprintf(&b, polygon.String())
 	}
 
 	if o.Image != nil {
