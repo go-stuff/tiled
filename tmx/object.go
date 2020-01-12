@@ -39,7 +39,7 @@ type Object struct {
 	Properties *Properties `xml:"properties"`
 	// TODO ellipse
 	// TODO point
-	// TODO polygon
+	Polygon []*Polygon `xml:"polygon"`
 	// TODO polyline
 	// TODO text
 	Image *Image `xml:"image"`
