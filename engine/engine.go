@@ -204,8 +204,16 @@ func (e *Engine) UpdateAnimationTile(milliseconds int64) {
 	}
 }
 
+// // GIDStripFlipping just returns the tile gid, it does not care about horizontal or vertical flipping.
+// func (e *Engine) GIDStripFlipping(gid int) int {
+// 	return gid &^ Flipped
+// }
+
 // GIDTileset returns the tileset a GID resides on.
 func (e *Engine) GIDTileset(gid int, tileset []*tmx.Tileset) (*tmx.Tileset, error) {
+	// Strip any flipping applied to this GID.
+	gid = gid &^ Flipped
+
 	for _, tileset := range tileset {
 		if gid >= tileset.FirstGID && gid < tileset.FirstGID+tileset.TileCount {
 			return tileset, nil
@@ -216,6 +224,8 @@ func (e *Engine) GIDTileset(gid int, tileset []*tmx.Tileset) (*tmx.Tileset, erro
 
 // GIDRectangle returns an image.Rectangle and Tileset of a GID.
 func (e *Engine) GIDRectangle(gid int, tilesets []*tmx.Tileset) (image.Rectangle, *tmx.Tileset, error) {
+	// Strip any flipping applied to this GID.
+	gid = gid &^ Flipped
 
 	// Get the Tileset of the current GID.
 	tileset, err := e.GIDTileset(gid, tilesets)
@@ -243,11 +253,6 @@ func (e *Engine) GIDRectangle(gid int, tilesets []*tmx.Tileset) (image.Rectangle
 	}
 
 	return rectangle, tileset, nil
-}
-
-// GIDStripFlipping just returns the tile gid, it does not care about horizontal or vertical flipping.
-func (e *Engine) GIDStripFlipping(gid int) int {
-	return gid &^ Flipped
 }
 
 // GIDFlipped returns status of horizontal, vertical and diagonal flipping also the stripped gid.
