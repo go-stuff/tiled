@@ -24,7 +24,7 @@ type Tile struct {
 func (t *Tile) String() string {
 	var b strings.Builder
 
-	fmt.Fprintf(&b, "Tile (%d):\n", t.ID)
+	fmt.Fprintf(&b, "Tile:\n")
 	fmt.Fprintf(&b, "\tID:          (%T) %d\n", t.ID, t.ID)
 	fmt.Fprintf(&b, "\tType:        (%T) %q\n", t.Type, t.Type)
 	fmt.Fprintf(&b, "\tTerrain:     (%T) %q\n", t.Terrain, t.Terrain)
