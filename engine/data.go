@@ -75,7 +75,7 @@ func (e *Engine) DecodeData(data *tmx.Data) ([]int, error) {
 			}
 			return -1
 		},
-		string(data.Raw),
+		string(data.InnerXML),
 	)
 	splitData := strings.Split(string(cleanRawData), ",")
 

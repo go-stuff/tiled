@@ -28,7 +28,7 @@ type ImageLayer struct {
 func (i *ImageLayer) String() string {
 	var b strings.Builder
 
-	fmt.Fprintf(&b, "ImageLayer (%d):\n", i.ID)
+	fmt.Fprintf(&b, "ImageLayer:\n")
 	fmt.Fprintf(&b, "\tID:      (%T) %d\n", i.ID, i.ID)
 	fmt.Fprintf(&b, "\tName:    (%T) %q\n", i.Name, i.Name)
 	fmt.Fprintf(&b, "\tOffsetX: (%T) %d\n", i.OffsetX, i.OffsetX)

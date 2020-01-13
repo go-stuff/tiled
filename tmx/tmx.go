@@ -98,21 +98,21 @@ func LoadTMX(source string) (*TMX, error) {
 
 	}
 
-	for _, objectGroup := range t.Map.ObjectGroup {
+	// for _, objectGroup := range t.Map.ObjectGroup {
 
-		for _, object := range objectGroup.Object {
+	// 	for _, object := range objectGroup.Object {
 
-			for _, polygon := range object.Polygon {
+	// 		for _, polygon := range object.Polygon {
 
-				err = polygon.decodePoints()
-				if err != nil {
-					return nil, err
-				}
+	// 			err = polygon.decodePoints()
+	// 			if err != nil {
+	// 				return nil, err
+	// 			}
 
-			}
+	// 		}
 
-		}
-	}
+	// 	}
+	// }
 
 	return t, nil
 }

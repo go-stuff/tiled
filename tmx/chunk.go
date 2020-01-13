@@ -22,10 +22,10 @@ func (c *Chunk) String() string {
 	var b strings.Builder
 
 	fmt.Fprintf(&b, "Chunk:\n")
-	fmt.Fprintf(&b, "\tX:        (%T) %q\n", c.X, c.X)
-	fmt.Fprintf(&b, "\tY:        (%T) %q\n", c.Y, c.Y)
-	fmt.Fprintf(&b, "\tWidth:    (%T) %q\n", c.Width, c.Width)
-	fmt.Fprintf(&b, "\tHeight:   (%T) %q\n", c.Height, c.Height)
+	fmt.Fprintf(&b, "\tX:      (%T) %q\n", c.X, c.X)
+	fmt.Fprintf(&b, "\tY:      (%T) %q\n", c.Y, c.Y)
+	fmt.Fprintf(&b, "\tWidth:  (%T) %q\n", c.Width, c.Width)
+	fmt.Fprintf(&b, "\tHeight: (%T) %q\n", c.Height, c.Height)
 
 	for _, tile := range c.Tile {
 		fmt.Fprintf(&b, tile.String())

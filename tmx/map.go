@@ -51,7 +51,6 @@ type Map struct {
 	// Can contain: <properties>, <tileset>, <layer>, <objectgroup>, <imagelayer>, <group> (since 1.0)
 
 	// Property structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#property
-	//	Properties  *Properties    `xml:"properties"`
 	Properties  []*Property    `xml:"properties>property"`
 	Tileset     []*Tileset     `xml:"tileset"`
 	Layer       []*Layer       `xml:"layer"`
@@ -78,10 +77,6 @@ func (m *Map) String() string {
 	fmt.Fprintf(&b, "\tBackgroundColor:    (%T) %q\n", m.BackgroundColor, m.BackgroundColor)
 	fmt.Fprintf(&b, "\tNext Layer ID:      (%T) %d\n", m.NextLayerID, m.NextLayerID)
 	fmt.Fprintf(&b, "\tNext Object ID:     (%T) %d\n", m.NextObjectID, m.NextObjectID)
-
-	// if m.Properties != nil {
-	// 	fmt.Fprintf(&b, m.Properties.String())
-	// }
 
 	for _, property := range m.Properties {
 		fmt.Fprintf(&b, property.String())

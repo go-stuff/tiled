@@ -31,7 +31,7 @@ type Layer struct {
 func (l *Layer) String() string {
 	var b strings.Builder
 
-	fmt.Fprintf(&b, "Layer (%d):\n", l.ID)
+	fmt.Fprintf(&b, "Layer:\n")
 	fmt.Fprintf(&b, "\tID:      (%T) %d\n", l.ID, l.ID)
 	fmt.Fprintf(&b, "\tName:    (%T) %q\n", l.Name, l.Name)
 	fmt.Fprintf(&b, "\tX:       (%T) %d\n", l.X, l.X)

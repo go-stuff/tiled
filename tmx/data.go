@@ -11,7 +11,7 @@ type Data struct {
 	XMLName     xml.Name `xml:"data"`
 	Encoding    string   `xml:"encoding,attr"`    // The encoding used to encode the tile layer data. When used, it can be “base64” and “csv” at the moment.
 	Compression string   `xml:"compression,attr"` // The compression used to compress the tile layer data. Tiled supports “gzip” and “zlib”.
-	Raw         []byte   `xml:",innerxml"`
+	InnerXML    string   `xml:",innerxml"`
 
 	// When no encoding or compression is given, the tiles are stored as individual XML tile elements. Next to that,
 	// the easiest format to parse is the “csv” (comma separated values) format.
@@ -26,8 +26,8 @@ type Data struct {
 	// equal than the gid. The tilesets are always stored with increasing firstgids.
 
 	// Can contain: <tile>, <chunk>
-	// Tile  []*LayerTile `xml:"tile"`
-	// Chunk []*Chunk     `xml:"chunk"`
+	Tile  []*LayerTile `xml:"tile"`
+	Chunk []*Chunk     `xml:"chunk"`
 }
 
 func (d *Data) String() string {
@@ -36,7 +36,15 @@ func (d *Data) String() string {
 	fmt.Fprintf(&b, "Data:\n")
 	fmt.Fprintf(&b, "\tEncoding:    (%T) %q\n", d.Encoding, d.Encoding)
 	fmt.Fprintf(&b, "\tCompression: (%T) %q\n", d.Compression, d.Compression)
-	fmt.Fprintf(&b, "\tRaw:%s", string(d.Raw))
+	fmt.Fprintf(&b, "\tRaw:%s", d.InnerXML)
+
+	for _, tile := range d.Tile {
+		fmt.Fprintf(&b, tile.String())
+	}
+
+	for _, chunk := range d.Chunk {
+		fmt.Fprintf(&b, chunk.String())
+	}
 
 	return b.String()
 }
