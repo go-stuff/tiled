@@ -43,8 +43,6 @@ type Object struct {
 	// TODO polyline
 	// TODO text
 	Image *Image `xml:"image"`
-
-	Flipping *Flipping `xml:"-"`
 }
 
 func (o *Object) String() string {

@@ -20,6 +20,20 @@ const (
 	Flipped             = FlippedHorizontally | FlippedVertically | FlippedDiagonally
 )
 
+// Flipping is the flipping status of a tile.
+type Flipping struct {
+	Horizontal bool
+	Vertical   bool
+	Diagonal   bool
+}
+
+// EngineTile needs to consolidate into to deal with tiles.
+type EngineTile struct {
+	Tileset  *tmx.Tileset
+	Tile     *tmx.Tile
+	Flipping *Flipping
+}
+
 // AnimationTile has fields to keep track of animations.
 type AnimationTile struct {
 	// FrameIndex keeps track of the current animated frame.

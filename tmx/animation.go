@@ -23,8 +23,8 @@ func (a *Animation) String() string {
 
 	fmt.Fprintf(&b, "Animation:\n")
 
-	for i := range a.Frame {
-		fmt.Fprintf(&b, a.Frame[i].String())
+	for _, frame := range a.Frame {
+		fmt.Fprintf(&b, frame.String())
 	}
 
 	return b.String()

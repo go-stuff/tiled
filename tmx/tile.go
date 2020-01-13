@@ -19,8 +19,6 @@ type Tile struct {
 	Image       *Image         `xml:"image"`
 	ObjectGroup []*ObjectGroup `xml:"objectgroup"`
 	Animation   *Animation     `xml:"animation"`
-
-	Tileset *Tileset `xml:"-"`
 }
 
 func (t *Tile) String() string {
@@ -34,6 +32,14 @@ func (t *Tile) String() string {
 
 	if t.Properties != nil {
 		fmt.Fprintf(&b, t.Properties.String())
+	}
+
+	if t.Image != nil {
+		fmt.Fprintf(&b, t.Image.String())
+	}
+
+	for _, objectGroup := range t.ObjectGroup {
+		fmt.Fprintf(&b, objectGroup.String())
 	}
 
 	if t.Animation != nil {
