@@ -236,6 +236,21 @@ func (e *Engine) GIDStripFlipping(gid int) int {
 	return gid &^ Flipped
 }
 
+// GIDFlipped returns status of horizontal, vertical and diagonal flipping also the stripped gid.
+func (e *Engine) GIDFlipped(gid int) (bool, bool, bool, int) {
+	var h, v, d bool
+	if gid&FlippedHorizontally != 0 {
+		h = true
+	}
+	if gid&FlippedVertically != 0 {
+		v = true
+	}
+	if gid&FlippedDiagonally != 0 {
+		d = true
+	}
+	return h, v, d, gid &^ Flipped
+}
+
 func (e *Engine) String() string {
 	var b strings.Builder
 
