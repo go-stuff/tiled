@@ -7,7 +7,7 @@ import (
 )
 
 // Properties structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#properties
-type Properties struct {
+type PropertiesOld struct {
 	XMLName xml.Name `xml:"properties"`
 
 	// Can contain: <property>
@@ -17,7 +17,7 @@ type Properties struct {
 	// tileset), terrain, layer, objectgroup, object, imagelayer and group elements.
 }
 
-func (p *Properties) String() string {
+func (p *PropertiesOld) String() string {
 	var b strings.Builder
 
 	for _, property := range p.Property {

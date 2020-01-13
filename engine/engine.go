@@ -27,13 +27,6 @@ type Flipping struct {
 	Diagonal   bool
 }
 
-// EngineTile needs to consolidate into to deal with tiles.
-type EngineTile struct {
-	Tileset  *tmx.Tileset
-	Tile     *tmx.Tile
-	Flipping *Flipping
-}
-
 // AnimationTile has fields to keep track of animations.
 type AnimationTile struct {
 	// FrameIndex keeps track of the current animated frame.
@@ -120,11 +113,17 @@ func LoadEngine(source string) (*Engine, error) {
 
 	for _, layer := range e.Map.Layer {
 
+		// Decode data.
+		gids, err := e.decodeData(layer.Data)
+		if err != nil {
+			return nil, err
+		}
+
 		e.LayerRectangle[layer] = make(map[int]*LayerRectangle)
 
 		x, y := 0, 0
 
-		for _, gid := range layer.Data.Tile.GID {
+		for _, gid := range gids {
 			// Increment y co-ordinate.
 			if x >= layer.Width {
 				x = 0

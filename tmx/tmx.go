@@ -98,16 +98,6 @@ func LoadTMX(source string) (*TMX, error) {
 
 	}
 
-	for _, layer := range t.Map.Layer {
-
-		// Decode CSV Data into GIDs
-		err = layer.Data.decodeCSV()
-		if err != nil {
-			return nil, err
-		}
-
-	}
-
 	for _, objectGroup := range t.Map.ObjectGroup {
 
 		for _, object := range objectGroup.Object {

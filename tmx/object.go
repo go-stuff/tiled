@@ -36,7 +36,7 @@ type Object struct {
 	// saved with the object will have higher priority, i.e. they will override the template properties.
 
 	// Can contain: <properties>, <ellipse> (since 0.9), <point>, <polygon>, <polyline>, <text> (since 1.0), image
-	Properties *Properties `xml:"properties"`
+	Properties []*Property `xml:"properties>property"`
 	// TODO ellipse
 	// TODO point
 	Polygon []*Polygon `xml:"polygon"`
@@ -61,8 +61,8 @@ func (o *Object) String() string {
 	fmt.Fprintf(&b, "\tVisible:  (%T) %t\n", o.Visible, o.Visible)
 	fmt.Fprintf(&b, "\tTemplate: (%T) %q\n", o.Template, o.Template)
 
-	if o.Properties != nil {
-		fmt.Fprintf(&b, o.Properties.String())
+	for _, property := range o.Properties {
+		fmt.Fprintf(&b, property.String())
 	}
 
 	for _, polygon := range o.Polygon {

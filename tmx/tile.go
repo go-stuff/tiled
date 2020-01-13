@@ -15,7 +15,7 @@ type Tile struct {
 	Probability float64  `xml:"probability,attr"` // A percentage indicating the probability that this tile is chosen when it competes with others while editing with the terrain tool. (optional)
 
 	// Can contain: <properties>, <image> (since 0.9), <objectgroup>, <animation>
-	Properties  *Properties    `xml:"properties"`
+	Properties  []*Property    `xml:"properties>property"`
 	Image       *Image         `xml:"image"`
 	ObjectGroup []*ObjectGroup `xml:"objectgroup"`
 	Animation   *Animation     `xml:"animation"`
@@ -30,8 +30,8 @@ func (t *Tile) String() string {
 	fmt.Fprintf(&b, "\tTerrain:     (%T) %q\n", t.Terrain, t.Terrain)
 	fmt.Fprintf(&b, "\tProbability: (%T) %f\n", t.Probability, t.Probability)
 
-	if t.Properties != nil {
-		fmt.Fprintf(&b, t.Properties.String())
+	for _, property := range t.Properties {
+		fmt.Fprintf(&b, property.String())
 	}
 
 	if t.Image != nil {

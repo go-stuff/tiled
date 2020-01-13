@@ -26,7 +26,7 @@ type ObjectGroup struct {
 	// The object group is in fact a map layer, and is hence called “object layer” in Tiled.
 
 	// Can contain: <properties>, <object>
-	Properties *Properties `xml:"properties"`
+	Properties []*Property `xml:"properties>property"`
 	Object     []*Object   `xml:"object"`
 }
 
@@ -43,8 +43,8 @@ func (o *ObjectGroup) String() string {
 	fmt.Fprintf(&b, "\tOffsetY:   (%T) %d\n", o.OffsetY, o.OffsetY)
 	fmt.Fprintf(&b, "\tDrawOrder: (%T) %q\n", o.DrawOrder, o.DrawOrder)
 
-	if o.Properties != nil {
-		fmt.Fprintf(&b, o.Properties.String())
+	for _, property := range o.Properties {
+		fmt.Fprintf(&b, property.String())
 	}
 
 	for _, object := range o.Object {

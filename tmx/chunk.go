@@ -15,8 +15,7 @@ type Chunk struct {
 	Height  int      `xml:"height,attr"` // The height of the chunk in tiles.
 
 	// Can contain: <tile>
-
-	Tile *LayerTile `xml:"tile"`
+	Tile []*LayerTile `xml:"tile"`
 }
 
 func (c *Chunk) String() string {
@@ -27,7 +26,10 @@ func (c *Chunk) String() string {
 	fmt.Fprintf(&b, "\tY:        (%T) %q\n", c.Y, c.Y)
 	fmt.Fprintf(&b, "\tWidth:    (%T) %q\n", c.Width, c.Width)
 	fmt.Fprintf(&b, "\tHeight:   (%T) %q\n", c.Height, c.Height)
-	fmt.Fprintf(&b, "\tTile.GID: (%T) len(%d) cap(%d) %v\n", c.Tile.GID, len(c.Tile.GID), cap(c.Tile.GID), c.Tile.GID)
+
+	for _, tile := range c.Tile {
+		fmt.Fprintf(&b, tile.String())
+	}
 
 	return b.String()
 }

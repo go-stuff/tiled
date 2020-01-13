@@ -8,11 +8,10 @@ import (
 
 // Property structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#property
 type Property struct {
-	XMLName  xml.Name    `xml:"property"`
-	Name     string      `xml:"name,attr"`  // The name of the property.
-	Type     string      `xml:"type,attr"`  // The type of the property. Can be string (default), int, float, bool, color or file (since 0.16, with color and file added in 0.17).
-	ValueXML string      `xml:"value,attr"` // The value of the property.
-	Value    interface{} `xml:"-"`
+	XMLName xml.Name `xml:"property"`
+	Name    string   `xml:"name,attr"`  // The name of the property.
+	Type    string   `xml:"type,attr"`  // The type of the property. Can be string (default), int, float, bool, color or file (since 0.16, with color and file added in 0.17).
+	Value   string   `xml:"value,attr"` // The value of the property.
 
 	// Boolean properties have a value of either “true” or “false”.
 	//
@@ -30,10 +29,9 @@ func (p *Property) String() string {
 	var b strings.Builder
 
 	fmt.Fprintf(&b, "Property:\n")
-	fmt.Fprintf(&b, "\tName:     (%T) %q\n", p.Name, p.Name)
-	fmt.Fprintf(&b, "\tType:     (%T) %q\n", p.Type, p.Type)
-	fmt.Fprintf(&b, "\tValueXML: (%T) %q\n", p.ValueXML, p.ValueXML)
-	fmt.Fprintf(&b, "\tValue:    (%T) %v\n", p.Value, p.Value)
+	fmt.Fprintf(&b, "\tName:  (%T) %q\n", p.Name, p.Name)
+	fmt.Fprintf(&b, "\tType:  (%T) %q\n", p.Type, p.Type)
+	fmt.Fprintf(&b, "\tValue: (%T) %q\n", p.Value, p.Value)
 
 	return b.String()
 }

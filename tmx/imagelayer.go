@@ -21,7 +21,7 @@ type ImageLayer struct {
 	// A layer consisting of a single image.
 
 	// Can contain: <properties>, <image>
-	Properties *Properties `xml:"properties"`
+	Properties []*Property `xml:"properties>property"`
 	Image      *Image      `xml:"image"`
 }
 
@@ -36,8 +36,8 @@ func (i *ImageLayer) String() string {
 	fmt.Fprintf(&b, "\tOpacity: (%T) %t\n", i.Opacity, i.Opacity)
 	fmt.Fprintf(&b, "\tVisible: (%T) %t\n", i.Visible, i.Visible)
 
-	if i.Properties != nil {
-		fmt.Fprintf(&b, i.Properties.String())
+	for _, property := range i.Properties {
+		fmt.Fprintf(&b, property.String())
 	}
 
 	if i.Image != nil {

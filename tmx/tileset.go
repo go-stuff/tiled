@@ -27,7 +27,7 @@ type Tileset struct {
 	// (since 1.1)
 	TileOffset   *TileOffset   `xml:"tileoffset"`
 	Grid         *Grid         `xml:"grid"`
-	Properties   *Properties   `xml:"properties"`
+	Properties   []*Property   `xml:"properties>property"`
 	Image        *Image        `xml:"image"`
 	TerrainTypes *TerrainTypes `xml:"terraintypes"`
 	Tile         []*Tile       `xml:"tile"`
@@ -56,8 +56,8 @@ func (t *Tileset) String() string {
 		fmt.Fprintf(&b, t.Grid.String())
 	}
 
-	if t.Properties != nil {
-		fmt.Fprintf(&b, t.Properties.String())
+	for _, property := range t.Properties {
+		fmt.Fprintf(&b, property.String())
 	}
 
 	if t.Image != nil {

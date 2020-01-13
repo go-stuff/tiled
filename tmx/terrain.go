@@ -13,7 +13,7 @@ type Terrain struct {
 	Tile    int      `xml:"tile,attr"` // The local tile-id of the tile that represents the terrain visually.
 
 	// Can contain: <properties>
-	Properties *Properties `xml:"properties"`
+	Properties []*Property `xml:"properties>property"`
 }
 
 func (t *Terrain) String() string {
@@ -23,8 +23,8 @@ func (t *Terrain) String() string {
 	fmt.Fprintf(&b, "\tName: (%T) %q\n", t.Name, t.Name)
 	fmt.Fprintf(&b, "\tTile: (%T) %d\n", t.Tile, t.Tile)
 
-	if t.Properties != nil {
-		fmt.Fprintf(&b, t.Properties.String())
+	for _, property := range t.Properties {
+		fmt.Fprintf(&b, property.String())
 	}
 
 	return b.String()

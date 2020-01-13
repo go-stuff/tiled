@@ -20,7 +20,7 @@ type Group struct {
 	// opacity and visible recursively affect child layers.
 
 	// Can contain: <properties>, <layer>, <objectgroup>, <imagelayer>, <group>
-	Properties  *Properties    `xml:"properties"`
+	Properties  []*Property    `xml:"properties>property"`
 	Layer       []*Layer       `xml:"layer"`
 	ObjectGroup []*ObjectGroup `xml:"objectgroup"`
 	ImageLayer  []*ImageLayer  `xml:"imagelayer"`
@@ -38,8 +38,8 @@ func (g *Group) String() string {
 	fmt.Fprintf(&b, "\tOpacity: (%T) %t\n", g.Opacity, g.Opacity)
 	fmt.Fprintf(&b, "\tVisible: (%T) %t\n", g.Visible, g.Visible)
 
-	if g.Properties != nil {
-		fmt.Fprintf(&b, g.Properties.String())
+	for _, property := range g.Properties {
+		fmt.Fprintf(&b, property.String())
 	}
 
 	for _, layer := range g.Layer {

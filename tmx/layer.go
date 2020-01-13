@@ -24,19 +24,8 @@ type Layer struct {
 	OffsetY float64  `xml:"offsety,attr"` // Rendering offset for this layer in pixels. Defaults to 0. (since 0.14)
 
 	// Can contain: <properties>, <data>
-	Properties *Properties `xml:"properties"`
+	Properties []*Property `xml:"properties>property"`
 	Data       *Data       `xml:"data"`
-}
-
-// GID is returned using X and Y coordinates.
-func (l *Layer) GID(x, y int) (int, error) {
-	if x > l.Width {
-		return -1, fmt.Errorf("x is too large")
-	}
-	if y > l.Height {
-		return -1, fmt.Errorf("y is too large")
-	}
-	return l.Data.Tile.GID[(y*l.Width)+x], nil
 }
 
 func (l *Layer) String() string {
@@ -54,8 +43,8 @@ func (l *Layer) String() string {
 	fmt.Fprintf(&b, "\tOffsetX: (%T) %f\n", l.OffsetX, l.OffsetX)
 	fmt.Fprintf(&b, "\tOffsetY: (%T) %f\n", l.OffsetY, l.OffsetY)
 
-	if l.Properties != nil {
-		fmt.Fprintf(&b, l.Properties.String())
+	for _, property := range l.Properties {
+		fmt.Fprintf(&b, property.String())
 	}
 
 	if l.Data != nil {
