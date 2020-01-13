@@ -12,6 +12,14 @@ import (
 	"github.com/hajimehoshi/ebiten/ebitenutil"
 )
 
+// Tiles can be flipped horizontally, vertically or both.
+const (
+	FlippedHorizontally = 0x80000000
+	FlippedVertically   = 0x40000000
+	FlippedDiagonally   = 0x20000000
+	Flipped             = FlippedHorizontally | FlippedVertically | FlippedDiagonally
+)
+
 // AnimationTile has fields to keep track of animations.
 type AnimationTile struct {
 	// FrameIndex keeps track of the current animated frame.
@@ -221,6 +229,11 @@ func (e *Engine) GIDRectangle(gid int, tilesets []*tmx.Tileset) (image.Rectangle
 	}
 
 	return rectangle, tileset, nil
+}
+
+// GIDStripFlipping just returns the tile gid, it does not care about horizontal or vertical flipping.
+func (e *Engine) GIDStripFlipping(gid int) int {
+	return gid &^ Flipped
 }
 
 func (e *Engine) String() string {
