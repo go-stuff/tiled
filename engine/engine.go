@@ -114,7 +114,7 @@ func LoadEngine(source string) (*Engine, error) {
 	for _, layer := range e.Map.Layer {
 
 		// Decode data.
-		gids, err := e.decodeData(layer.Data)
+		gids, err := e.DecodeData(layer.Data)
 		if err != nil {
 			return nil, err
 		}

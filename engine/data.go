@@ -48,7 +48,7 @@ func (e *Engine) GID(layer *tmx.Layer, x, y int) (int, error) {
 // 	return ioutil.ReadAll(reader)
 // }
 
-func (e *Engine) decodeData(data *tmx.Data) ([]int, error) {
+func (e *Engine) DecodeData(data *tmx.Data) ([]int, error) {
 
 	// No value for encoding means it is XML.
 	if data.Encoding == "" {
