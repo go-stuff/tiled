@@ -10,7 +10,7 @@ import (
 
 // Test loading and printing a tmx file.
 func main() {
-	t, err := tmx.LoadTMX("/home/stevo/code/github.com/go-stuff/rpg/asset/rpg-overworld-tileset v1.2 (wonderdot)/Extras/Scenes.tmx")
+	t, err := tmx.LoadTMX("/home/stevo/code/github.com/go-stuff/rpg/asset/rpg-overworld-tileset v1.2 (wonderdot)/Extras/ScenesCSV.tmx")
 	//t, err := tmx.LoadTMX("./testdata/map.tmx")
 
 	if err != nil {
@@ -18,7 +18,7 @@ func main() {
 	}
 	fmt.Println(t.String())
 
-	e, err := engine.LoadEngine("/home/stevo/code/github.com/go-stuff/rpg/asset/rpg-overworld-tileset v1.2 (wonderdot)/Extras/Scenes.tmx")
+	e, err := engine.LoadEngine("/home/stevo/code/github.com/go-stuff/rpg/asset/rpg-overworld-tileset v1.2 (wonderdot)/Extras/ScenesCSV.tmx")
 	if err != nil {
 		log.Fatal(err)
 	}

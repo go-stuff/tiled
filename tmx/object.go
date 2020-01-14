@@ -37,12 +37,12 @@ type Object struct {
 
 	// Can contain: <properties>, <ellipse> (since 0.9), <point>, <polygon>, <polyline>, <text> (since 1.0), image
 	Properties []*Property `xml:"properties>property"`
-	// TODO ellipse
-	// TODO point
-	Polygon []*Polygon `xml:"polygon"`
-	// TODO polyline
-	// TODO text
-	Image *Image `xml:"image"`
+	Ellipse    []*Ellipse  `xml:"ellipse"`
+	Point      []*Point    `xml:"point"`
+	Polygon    []*Polygon  `xml:"polygon"`
+	Polyline   []*Polyline `xml:"polyline"`
+	Text       []*Text     `xml:"text"`
+	Image      *Image      `xml:"image"`
 }
 
 func (o *Object) String() string {
@@ -65,12 +65,37 @@ func (o *Object) String() string {
 		fmt.Fprintf(&b, property.String())
 	}
 
+	for _, ellipse := range o.Ellipse {
+		fmt.Fprintf(&b, ellipse.String())
+	}
+
+	for _, point := range o.Point {
+		fmt.Fprintf(&b, point.String())
+	}
+
 	for _, polygon := range o.Polygon {
 		fmt.Fprintf(&b, polygon.String())
 	}
 
+	for _, polyline := range o.Polyline {
+		fmt.Fprintf(&b, polyline.String())
+	}
+
+	for _, text := range o.Text {
+		fmt.Fprintf(&b, text.String())
+	}
+
 	if o.Image != nil {
 		fmt.Fprintf(&b, o.Image.String())
+	}
+
+	// Set as rectangle if all other options are nil.
+	if o.Ellipse == nil &&
+		o.Point == nil &&
+		o.Polygon == nil &&
+		o.Polyline == nil &&
+		o.Text == nil {
+		fmt.Fprintf(&b, "Rectangle\n")
 	}
 
 	return b.String()

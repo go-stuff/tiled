@@ -4,16 +4,19 @@ import (
 	"fmt"
 	"strconv"
 	"strings"
-
-	"github.com/go-stuff/tiled/tmx"
 )
 
+type Point struct {
+	X int
+	Y int
+}
+
 // DecodePoints decodes a tmx object points string.
-func (e *Engine) DecodePoints(pointsData string) ([]*tmx.Point, error) {
+func (e *Engine) DecodePoints(pointsData string) ([]*Point, error) {
 
 	splitPoints := strings.Split(pointsData, " ")
 
-	points := make([]*tmx.Point, len(splitPoints), len(splitPoints))
+	points := make([]*Point, len(splitPoints), len(splitPoints))
 
 	for i, value := range splitPoints {
 
@@ -32,7 +35,7 @@ func (e *Engine) DecodePoints(pointsData string) ([]*tmx.Point, error) {
 			return nil, err
 		}
 
-		points[i] = &tmx.Point{
+		points[i] = &Point{
 			X: int(x),
 			Y: int(y),
 		}
