@@ -38,15 +38,11 @@ func LoadTMX(source string) (*TMX, error) {
 
 	t := new(TMX)
 
-	tmxDir, tmxFile := filepath.Split(source)
-
-	fmt.Println("tmxDir: ", tmxDir, ", tmxFile: ", tmxFile)
-
+	tmxDir, _ := filepath.Split(source)
 	tmxBytes, err := ioutil.ReadFile(source)
 	if err != nil {
 		return nil, fmt.Errorf("error reading tmx file: %w", err)
 	}
-
 	err = xml.Unmarshal(tmxBytes, &t.Map)
 	if err != nil {
 		return nil, fmt.Errorf("error unmarshaling tmx bytes: %w", err)
@@ -59,27 +55,17 @@ func LoadTMX(source string) (*TMX, error) {
 			imgDir, imgFile := filepath.Split(tileset.Image.Source)
 			imgPath := filepath.Join(tmxDir, imgDir, imgFile)
 
-			fmt.Println("imgDir: ", imgDir, ", imgFile: ", imgFile)
-			fmt.Println("imgPath: ", imgPath)
-
 			tileset.Image.Source = imgPath
 		}
 
 		// External Tileset
 		if tileset.Source != "" {
-			fmt.Println("Source: ", tileset.Source)
-
 			tsxDir, tsxFile := filepath.Split(tileset.Source)
 			tsxPath := filepath.Join(tmxDir, tsxDir, tsxFile)
-
-			fmt.Println("tsxDir: ", tsxDir, "tsxFile: ", tsxFile)
-			fmt.Println("tsxPath: ", tsxPath)
-
 			tsxBytes, err := ioutil.ReadFile(tsxPath)
 			if err != nil {
 				return nil, fmt.Errorf("error reading tsx file: %w", err)
 			}
-
 			err = xml.Unmarshal(tsxBytes, &tileset)
 			if err != nil {
 				return nil, fmt.Errorf("error unmarshaling tsx bytes: %w", err)
@@ -90,29 +76,10 @@ func LoadTMX(source string) (*TMX, error) {
 			imgDir, imgFile := filepath.Split(tileset.Image.Source)
 			imgPath := filepath.Join(tmxDir, tsxDir, imgDir, imgFile)
 
-			fmt.Println("imgDir: ", imgDir, ", imgFile: ", imgFile)
-			fmt.Println("imgPath: ", imgPath)
-
 			tileset.Image.Source = imgPath
 		}
 
 	}
-
-	// for _, objectGroup := range t.Map.ObjectGroup {
-
-	// 	for _, object := range objectGroup.Object {
-
-	// 		for _, polygon := range object.Polygon {
-
-	// 			err = polygon.decodePoints()
-	// 			if err != nil {
-	// 				return nil, err
-	// 			}
-
-	// 		}
-
-	// 	}
-	// }
 
 	return t, nil
 }

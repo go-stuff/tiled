@@ -1,6 +1,10 @@
 package tmx
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+	"fmt"
+	"strings"
+)
 
 // WangTile structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#wangtile
 type WangTile struct {
@@ -10,4 +14,14 @@ type WangTile struct {
 	XMLName xml.Name `xml:"wangtile"`
 	TileID  int      `xml:"tileid,attr"` // The tile ID.
 	WangID  int      `xml:"wangid,attr"` // The Wang ID, which is a 32-bit unsigned integer stored in the format 0xCECECECE (where each C is a corner color and each E is an edge color, from right to left clockwise, starting with the top edge)
+}
+
+func (w *WangTile) String() string {
+	var b strings.Builder
+
+	fmt.Fprintf(&b, "WangTile:\n")
+	fmt.Fprintf(&b, "\tTileID: (%T) %d\n", w.TileID, w.TileID)
+	fmt.Fprintf(&b, "\tWangID: (%T) %d\n", w.WangID, w.WangID)
+
+	return b.String()
 }

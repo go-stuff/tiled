@@ -1,6 +1,10 @@
 package tmx
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+	"fmt"
+	"strings"
+)
 
 // Wangset structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#wangset
 type Wangset struct {
@@ -15,4 +19,15 @@ type Wangset struct {
 	WangCornerColor WangCornerColor `xml:"wangcornercolor"`
 	WangEdgeColor   WangEdgeColor   `xml:"wangedgecolor"`
 	WangTile        WangTile        `xml:"wangtile"`
+}
+
+func (w *Wangset) String() string {
+	var b strings.Builder
+
+	fmt.Fprintf(&b, "Wangset:\n")
+	fmt.Fprintf(&b, w.WangCornerColor.String())
+	fmt.Fprintf(&b, w.WangEdgeColor.String())
+	fmt.Fprintf(&b, w.WangTile.String())
+
+	return b.String()
 }
