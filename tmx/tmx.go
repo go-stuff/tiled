@@ -38,8 +38,12 @@ func LoadTMX(source string) (*TMX, error) {
 
 	t := new(TMX)
 
-	tmxDir, _ := filepath.Split(source)
-	tmxBytes, err := ioutil.ReadFile(source)
+	// Get tmx directory and filename and create a safe path.
+	tmxDir, tmxFile := filepath.Split(source)
+	tmxPath := filepath.Join(tmxDir, tmxFile)
+
+	// Unmarshal the tmx path.
+	tmxBytes, err := ioutil.ReadFile(tmxPath)
 	if err != nil {
 		return nil, fmt.Errorf("error reading tmx file: %w", err)
 	}
@@ -48,20 +52,33 @@ func LoadTMX(source string) (*TMX, error) {
 		return nil, fmt.Errorf("error unmarshaling tmx bytes: %w", err)
 	}
 
+	// Process each tileset in the tmx file.
 	for _, tileset := range t.Map.Tileset {
 
-		// Internal Tileset
+		// Update any image sources that are embedded the tmx file.
 		if tileset.Image != nil {
+
+			// Get image directory and filename and create a safe path.
 			imgDir, imgFile := filepath.Split(tileset.Image.Source)
 			imgPath := filepath.Join(tmxDir, imgDir, imgFile)
 
+			// Update image source with a safe path.
 			tileset.Image.Source = imgPath
+
 		}
 
 		// External Tileset
+		// Update any tileset and image sources that come from external tsx files.
 		if tileset.Source != "" {
+
+			// Get tsx directory and filename and create a safe path.
 			tsxDir, tsxFile := filepath.Split(tileset.Source)
 			tsxPath := filepath.Join(tmxDir, tsxDir, tsxFile)
+
+			// Update tileset source with a safe path.
+			tileset.Source = tsxPath
+
+			// Unmarshal a tsx path.
 			tsxBytes, err := ioutil.ReadFile(tsxPath)
 			if err != nil {
 				return nil, fmt.Errorf("error reading tsx file: %w", err)
@@ -71,14 +88,14 @@ func LoadTMX(source string) (*TMX, error) {
 				return nil, fmt.Errorf("error unmarshaling tsx bytes: %w", err)
 			}
 
-			tileset.Source = tsxPath
-
+			// Get image directory and filename and create a safe path.
 			imgDir, imgFile := filepath.Split(tileset.Image.Source)
 			imgPath := filepath.Join(tmxDir, tsxDir, imgDir, imgFile)
 
+			// Update image source with a safe path.
 			tileset.Image.Source = imgPath
-		}
 
+		}
 	}
 
 	return t, nil

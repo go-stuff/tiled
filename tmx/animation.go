@@ -12,7 +12,8 @@ type Animation struct {
 
 	// Contains a list of animation frames.
 
-	// Each tile can have exactly one animation associated with it. In the future, there could be support for multiple named animations on a tile.
+	// Each tile can have exactly one animation associated with it. In the future, there could be support for multiple
+	// named animations on a tile.
 
 	// Can contain: <frame>
 	Frame []*Frame `xml:"frame"`

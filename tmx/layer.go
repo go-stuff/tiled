@@ -12,16 +12,37 @@ type Layer struct {
 	// before needing to resolve tiles.
 
 	XMLName xml.Name `xml:"layer"`
-	ID      int      `xml:"id,attr"`      // Unique ID of the layer. Each layer that added to a map gets a unique id. Even if a layer is deleted, no layer ever gets the same ID. Can not be changed in Tiled. (since Tiled 1.2)
-	Name    string   `xml:"name,attr"`    // The name of the layer.
-	X       int      `xml:"x,attr"`       //  The x coordinate of the layer in tiles. Defaults to 0 and can not be changed in Tiled.
-	Y       int      `xml:"y,attr"`       // The y coordinate of the layer in tiles. Defaults to 0 and can not be changed in Tiled.
-	Width   int      `xml:"width,attr"`   // The width of the layer in tiles. Always the same as the map width for fixed-size maps.
-	Height  int      `xml:"height,attr"`  // The height of the layer in tiles. Always the same as the map height for fixed-size maps.
-	Opacity float64  `xml:"opacity,attr"` // The opacity of the layer as a value from 0 to 1. Defaults to 1.
-	Visible bool     `xml:"visible,attr"` // Whether the layer is shown (1) or hidden (0). Defaults to 1.
-	OffsetX float64  `xml:"offsetx,attr"` // Rendering offset for this layer in pixels. Defaults to 0. (since 0.14)
-	OffsetY float64  `xml:"offsety,attr"` // Rendering offset for this layer in pixels. Defaults to 0. (since 0.14)
+
+	// Unique ID of the layer. Each layer that added to a map gets a unique id. Even if a layer is deleted, no layer
+	// ever gets the same ID. Can not be changed in Tiled. (since Tiled 1.2)
+	ID int `xml:"id,attr"`
+
+	// The name of the layer.
+	Name string `xml:"name,attr"`
+
+	//  The x coordinate of the layer in tiles. Defaults to 0 and can not be changed in Tiled.
+	X int `xml:"x,attr"`
+
+	// The y coordinate of the layer in tiles. Defaults to 0 and can not be changed in Tiled.
+	Y int `xml:"y,attr"`
+
+	// The width of the layer in tiles. Always the same as the map width for fixed-size maps.
+	Width int `xml:"width,attr"`
+
+	// The height of the layer in tiles. Always the same as the map height for fixed-size maps.
+	Height int `xml:"height,attr"`
+
+	// The opacity of the layer as a value from 0 to 1. Defaults to 1.
+	Opacity float32 `xml:"opacity,attr"`
+
+	// Whether the layer is shown (1) or hidden (0). Defaults to 1.
+	Visible bool `xml:"visible,attr"`
+
+	// Rendering offset for this layer in pixels. Defaults to 0. (since 0.14)
+	OffsetX float32 `xml:"offsetx,attr"`
+
+	// Rendering offset for this layer in pixels. Defaults to 0. (since 0.14)
+	OffsetY float32 `xml:"offsety,attr"`
 
 	// Can contain: <properties>, <data>
 	Properties []*Property `xml:"properties>property"`

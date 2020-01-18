@@ -9,9 +9,16 @@ import (
 // Property structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#property
 type Property struct {
 	XMLName xml.Name `xml:"property"`
-	Name    string   `xml:"name,attr"`  // The name of the property.
-	Type    string   `xml:"type,attr"`  // The type of the property. Can be string (default), int, float, bool, color or file (since 0.16, with color and file added in 0.17).
-	Value   string   `xml:"value,attr"` // The value of the property.
+
+	// The name of the property.
+	Name string `xml:"name,attr"`
+
+	// The type of the property. Can be string (default), int, float, bool, color or file (since 0.16, with color and
+	// file added in 0.17).
+	Type string `xml:"type,attr"`
+
+	// The value of the property.
+	Value string `xml:"value,attr"`
 
 	// Boolean properties have a value of either “true” or “false”.
 	//

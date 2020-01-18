@@ -8,11 +8,22 @@ import (
 
 // Tile structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#tile
 type Tile struct {
-	XMLName     xml.Name `xml:"tile"`
-	ID          int      `xml:"id,attr"`          // The local tile ID within its tileset.
-	Type        string   `xml:"type,attr"`        // The type of the tile. Refers to an object type and is used by tile objects. (optional) (since 1.0)
-	Terrain     string   `xml:"terrain,attr"`     // Defines the terrain type of each corner of the tile, given as comma-separated indexes in the terrain types array in the order top-left, top-right, bottom-left, bottom-right. Leaving out a value means that corner has no terrain. (optional)
-	Probability float64  `xml:"probability,attr"` // A percentage indicating the probability that this tile is chosen when it competes with others while editing with the terrain tool. (optional)
+	XMLName xml.Name `xml:"tile"`
+
+	// The local tile ID within its tileset.
+	ID int `xml:"id,attr"`
+
+	// The type of the tile. Refers to an object type and is used by tile objects. (optional) (since 1.0)
+	Type string `xml:"type,attr"`
+
+	// Defines the terrain type of each corner of the tile, given as comma-separated indexes in the terrain types array
+	// in the order top-left, top-right, bottom-left, bottom-right. Leaving out a value means that corner has no
+	// terrain. (optional)
+	Terrain string `xml:"terrain,attr"`
+
+	// A percentage indicating the probability that this tile is chosen when it competes with others while editing with
+	// the terrain tool. (optional)
+	Probability float32 `xml:"probability,attr"`
 
 	// Can contain: <properties>, <image> (since 0.9), <objectgroup>, <animation>
 	Properties  []*Property    `xml:"properties>property"`

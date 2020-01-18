@@ -8,10 +8,14 @@ import (
 
 // Data structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#data
 type Data struct {
-	XMLName     xml.Name `xml:"data"`
-	Encoding    string   `xml:"encoding,attr"`    // The encoding used to encode the tile layer data. When used, it can be “base64” and “csv” at the moment.
-	Compression string   `xml:"compression,attr"` // The compression used to compress the tile layer data. Tiled supports “gzip” and “zlib”.
-	InnerXML    string   `xml:",innerxml"`
+	XMLName  xml.Name `xml:"data"`
+	InnerXML string   `xml:",innerxml"`
+
+	// The encoding used to encode the tile layer data. When used, it can be “base64” and “csv” at the moment.
+	Encoding string `xml:"encoding,attr"`
+
+	// The compression used to compress the tile layer data. Tiled supports “gzip” and “zlib”.
+	Compression string `xml:"compression,attr"`
 
 	// When no encoding or compression is given, the tiles are stored as individual XML tile elements. Next to that,
 	// the easiest format to parse is the “csv” (comma separated values) format.

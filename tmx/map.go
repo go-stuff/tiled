@@ -23,21 +23,55 @@ const (
 
 // Map structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#map
 type Map struct {
-	XMLName         xml.Name `xml:"map"`
-	Version         string   `xml:"version,attr"`         // The TMX format version. Was “1.0” so far, and will be incremented to match minor Tiled releases.
-	TiledVersion    string   `xml:"tiledversion,attr"`    // The Tiled version used to save the file (since Tiled 1.0.1). May be a date (for snapshot builds).
-	Orientation     string   `xml:"orientation,attr"`     //  Map orientation. Tiled supports “orthogonal”, “isometric”, “staggered” and “hexagonal” (since 0.11).
-	RenderOrder     string   `xml:"renderorder,attr"`     //  The order in which tiles on tile layers are rendered. Valid values are right-down (the default), right-up, left-down and left-up. In all cases, the map is drawn row-by-row. (only supported for orthogonal maps at the moment)
-	Width           int      `xml:"width,attr"`           //  The map width in tiles.
-	Height          int      `xml:"height,attr"`          //  The map height in tiles.
-	TileWidth       int      `xml:"tilewidth,attr"`       //  The width of a tile.
-	TileHeight      int      `xml:"tileheight,attr"`      //  The height of a tile.
-	HexSideLength   int      `xml:"hexsidelength,attr"`   //  Only for hexagonal maps. Determines the width or height (depending on the staggered axis) of the tile’s edge, in pixels.
-	StaggerAxis     string   `xml:"staggeraxis,attr"`     //  For staggered and hexagonal maps, determines which axis (“x” or “y”) is staggered. (since 0.11)
-	StaggerIndex    string   `xml:"staggerindex,attr"`    //  For staggered and hexagonal maps, determines whether the “even” or “odd” indexes along the staggered axis are shifted. (since 0.11)
-	BackgroundColor string   `xml:"backgroundcolor,attr"` //  The background color of the map. (optional, may include alpha value since 0.15 in the form #AARRGGBB)
-	NextLayerID     int      `xml:"nextlayerid,attr"`     //  Stores the next available ID for new layers. This number is stored to prevent reuse of the same ID after layers have been removed. (since 1.2)
-	NextObjectID    int      `xml:"nextobjectid,attr"`    //  Stores the next available ID for new objects. This number is stored to prevent reuse of the same ID after objects have been removed. (since 0.11)
+	XMLName xml.Name `xml:"map"`
+
+	// The TMX format version. Was “1.0” so far, and will be incremented to match minor Tiled releases.
+	Version string `xml:"version,attr"`
+
+	// The Tiled version used to save the file (since Tiled 1.0.1). May be a date (for snapshot builds).
+	TiledVersion string `xml:"tiledversion,attr"`
+
+	// Map orientation. Tiled supports “orthogonal”, “isometric”, “staggered” and “hexagonal” (since 0.11).
+	Orientation string `xml:"orientation,attr"`
+
+	// The order in which tiles on tile layers are rendered. Valid values are right-down (the default), right-up,
+	// left-down and left-up. In all cases, the map is drawn row-by-row. (only supported for orthogonal maps at the
+	// moment)
+	RenderOrder string `xml:"renderorder,attr"`
+
+	// The map width in tiles.
+	Width int `xml:"width,attr"`
+
+	// The map height in tiles.
+	Height int `xml:"height,attr"`
+
+	// The width of a tile.
+	TileWidth int `xml:"tilewidth,attr"`
+
+	// The height of a tile.
+	TileHeight int `xml:"tileheight,attr"`
+
+	// Only for hexagonal maps. Determines the width or height (depending on the staggered axis) of the tile’s edge,
+	// in pixels.
+	HexSideLength int `xml:"hexsidelength,attr"`
+
+	//  For staggered and hexagonal maps, determines which axis (“x” or “y”) is staggered. (since 0.11)
+	StaggerAxis string `xml:"staggeraxis,attr"`
+
+	// For staggered and hexagonal maps, determines whether the “even” or “odd” indexes along the staggered axis are
+	// shifted. (since 0.11)
+	StaggerIndex string `xml:"staggerindex,attr"`
+
+	// The background color of the map. (optional, may include alpha value since 0.15 in the form #AARRGGBB)
+	BackgroundColor string `xml:"backgroundcolor,attr"`
+
+	// Stores the next available ID for new layers. This number is stored to prevent reuse of the same ID after layers
+	// have been removed. (since 1.2)
+	NextLayerID int `xml:"nextlayerid,attr"`
+
+	// Stores the next available ID for new objects. This number is stored to prevent reuse of the same ID after
+	// objects have been removed. (since 0.11)
+	NextObjectID int `xml:"nextobjectid,attr"`
 
 	// The tilewidth and tileheight properties determine the general grid size of the map. The individual tiles may
 	// have different sizes. Larger tiles will extend at the top and right (anchored to the bottom left).
