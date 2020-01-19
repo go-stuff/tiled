@@ -6,7 +6,11 @@
 
 Loading [TMX Map Format](https://doc.mapeditor.org/de/stable/reference/tmx-map-format/#tmx-map-format) files created by the [Tiled](https://www.mapeditor.org/) map editor into a [Go](https://golang.org/) struct. This package does not do anything fancy, it does not do any decoding, it unmarshalls data from `.tmx` and `.tsx` files and populates a `tmx.Map` struct. It updates tileset and image sources with better path information.
 
-The [TMX Map Format](https://doc.mapeditor.org/de/stable/reference/tmx-map-format/#tmx-map-format) documentation was followed as close as possible. The only field used that is not listed in the spec is [tmx.Data.InnerXML](https://github.com/go-stuff/tiled/blob/master/tmx/data.go), it is the raw XML nested inside the tag `<data>`.
+The [TMX Map Format](https://doc.mapeditor.org/de/stable/reference/tmx-map-format/#tmx-map-format) documentation was followed as close as possible.
+
+A field used that is not listed in the spec is [tmx.Data.InnerXML](https://github.com/go-stuff/tiled/blob/master/tmx/data.go), it is the raw XML nested inside the tag `<data>`.
+
+A field used that is not listed in the spec is [tmx.Custom](https://github.com/go-stuff/tiled/blob/master/tmx/custom.go), it is used to preserve the order of [tmx.Map] elements. While building a game engine, the order of each layer in Map became important.
 
 ## Packages Imported
 

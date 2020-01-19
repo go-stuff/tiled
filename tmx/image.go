@@ -40,7 +40,7 @@ type Image struct {
 func (i *Image) String() string {
 	var b strings.Builder
 
-	fmt.Fprintf(&b, "Image (%s):\n", i.Source)
+	fmt.Fprintf(&b, "Image:\n")
 	fmt.Fprintf(&b, "\tSource: (%T) %q\n", i.Source, i.Source)
 	fmt.Fprintf(&b, "\tTrans:  (%T) %q\n", i.Trans, i.Trans)
 	fmt.Fprintf(&b, "\tWidth:  (%T) %d\n", i.Width, i.Width)

@@ -40,7 +40,7 @@ func (d *Data) String() string {
 	fmt.Fprintf(&b, "Data:\n")
 	fmt.Fprintf(&b, "\tEncoding:    (%T) %q\n", d.Encoding, d.Encoding)
 	fmt.Fprintf(&b, "\tCompression: (%T) %q\n", d.Compression, d.Compression)
-	fmt.Fprintf(&b, "\tInnerXML:    (%T) %q\n", d.InnerXML, d.InnerXML)
+	fmt.Fprintf(&b, "\tInnerXML:    (%T) %q\n", d.InnerXML, "...")
 
 	for _, tile := range d.Tile {
 		fmt.Fprintf(&b, tile.String())

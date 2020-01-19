@@ -83,14 +83,15 @@ type Map struct {
 	// The staggered orientation refers to an isometric map using staggered axes.
 
 	// Can contain: <properties>, <tileset>, <layer>, <objectgroup>, <imagelayer>, <group> (since 1.0)
+	Content []Content `xml:",any"`
 
 	// Property structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#property
-	Properties  []*Property    `xml:"properties>property"`
-	Tileset     []*Tileset     `xml:"tileset"`
-	Layer       []*Layer       `xml:"layer"`
-	ObjectGroup []*ObjectGroup `xml:"objectgroup"`
-	ImageLayer  []*ImageLayer  `xml:"imagelayer"`
-	Group       []*Group       `xml:"group"`
+	// Properties  []*Property    `xml:"properties>property"`
+	// Tileset     []*Tileset     `xml:"tileset"`
+	// Layer       []*Layer       `xml:"layer"`
+	// ObjectGroup []*ObjectGroup `xml:"objectgroup"`
+	// ImageLayer  []*ImageLayer  `xml:"imagelayer"`
+	// Group       []*Group       `xml:"group"`
 }
 
 func (m *Map) String() string {
@@ -112,29 +113,33 @@ func (m *Map) String() string {
 	fmt.Fprintf(&b, "\tNext Layer ID:      (%T) %d\n", m.NextLayerID, m.NextLayerID)
 	fmt.Fprintf(&b, "\tNext Object ID:     (%T) %d\n", m.NextObjectID, m.NextObjectID)
 
-	for _, property := range m.Properties {
-		fmt.Fprintf(&b, property.String())
+	for _, content := range m.Content {
+		fmt.Fprintf(&b, content.String())
 	}
 
-	for _, tileset := range m.Tileset {
-		fmt.Fprintf(&b, tileset.String())
-	}
+	// for _, property := range m.Properties {
+	// 	fmt.Fprintf(&b, property.String())
+	// }
 
-	for _, layer := range m.Layer {
-		fmt.Fprintf(&b, layer.String())
-	}
+	// for _, tileset := range m.Tileset {
+	// 	fmt.Fprintf(&b, tileset.String())
+	// }
 
-	for _, objectGroup := range m.ObjectGroup {
-		fmt.Fprintf(&b, objectGroup.String())
-	}
+	// for _, layer := range m.Layer {
+	// 	fmt.Fprintf(&b, layer.String())
+	// }
 
-	for _, imageLayer := range m.ImageLayer {
-		fmt.Fprintf(&b, imageLayer.String())
-	}
+	// for _, objectGroup := range m.ObjectGroup {
+	// 	fmt.Fprintf(&b, objectGroup.String())
+	// }
 
-	for _, group := range m.Group {
-		fmt.Fprintf(&b, group.String())
-	}
+	// for _, imageLayer := range m.ImageLayer {
+	// 	fmt.Fprintf(&b, imageLayer.String())
+	// }
+
+	// for _, group := range m.Group {
+	// 	fmt.Fprintf(&b, group.String())
+	// }
 
 	return b.String()
 }
