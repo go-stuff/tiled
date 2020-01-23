@@ -14,4 +14,6 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Println(t.String())
+
+	fmt.Println(t.CountLayers(0, t.Map.Content))
 }

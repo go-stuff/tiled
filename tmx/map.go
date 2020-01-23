@@ -93,6 +93,23 @@ type Map struct {
 	// Group       []*Group       `xml:"group"`
 }
 
+// CountLayers recurses Map and Group Content to get a count of Layers.
+func (m *Map) CountLayers(count int, content []Content) int {
+	for _, c := range content {
+		switch v := c.Value.(type) {
+		case *Layer:
+			count++
+		case *ImageLayer:
+			count++
+		case *ObjectGroup:
+			count++
+		case *Group:
+			count = m.CountLayers(count, v.Content)
+		}
+	}
+	return count
+}
+
 func (m *Map) String() string {
 	var b strings.Builder
 
