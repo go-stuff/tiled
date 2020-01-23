@@ -21,16 +21,16 @@ type ObjectGroup struct {
 	Color string `xml:"color,attr"`
 
 	// The x coordinate of the object group in tiles. Defaults to 0 and can no longer be changed in Tiled.
-	// X      float64  `xml:"x,attr"`
+	// X      float32  `xml:"x,attr"`
 
 	// The y coordinate of the object group in tiles. Defaults to 0 and can no longer be changed in Tiled.
-	// Y      float64  `xml:"y,attr"`
+	// Y      float32  `xml:"y,attr"`
 
 	// The width of the object group in tiles. Meaningless.
-	// Width  float64  `xml:"width,attr"`
+	// Width  float32  `xml:"width,attr"`
 
 	// The height of the object group in tiles. Meaningless.
-	// Height float64  `xml:"height,attr"`
+	// Height float32  `xml:"height,attr"`
 
 	// The opacity of the layer as a value from 0 to 1. Defaults to 1.
 	Opacity bool `xml:"opacity,attr"`

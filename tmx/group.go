@@ -33,11 +33,13 @@ type Group struct {
 	// opacity and visible recursively affect child layers.
 
 	// Can contain: <properties>, <layer>, <objectgroup>, <imagelayer>, <group>
-	Properties  []*Property    `xml:"properties>property"`
-	Layer       []*Layer       `xml:"layer"`
-	ObjectGroup []*ObjectGroup `xml:"objectgroup"`
-	ImageLayer  []*ImageLayer  `xml:"imagelayer"`
-	Group       []*Group       `xml:"group"`
+	Content []Content `xml:",any"`
+
+	// Properties  []*Property    `xml:"properties>property"`
+	// Layer       []*Layer       `xml:"layer"`
+	// ObjectGroup []*ObjectGroup `xml:"objectgroup"`
+	// ImageLayer  []*ImageLayer  `xml:"imagelayer"`
+	// Group       []*Group       `xml:"group"`
 }
 
 func (g *Group) String() string {
@@ -51,25 +53,29 @@ func (g *Group) String() string {
 	fmt.Fprintf(&b, "\tOpacity: (%T) %t\n", g.Opacity, g.Opacity)
 	fmt.Fprintf(&b, "\tVisible: (%T) %t\n", g.Visible, g.Visible)
 
-	for _, property := range g.Properties {
-		fmt.Fprintf(&b, property.String())
+	for _, content := range g.Content {
+		fmt.Fprintf(&b, content.String())
 	}
 
-	for _, layer := range g.Layer {
-		fmt.Fprintf(&b, layer.String())
-	}
+	// for _, property := range g.Properties {
+	// 	fmt.Fprintf(&b, property.String())
+	// }
 
-	for _, objectGroup := range g.ObjectGroup {
-		fmt.Fprintf(&b, objectGroup.String())
-	}
+	// for _, layer := range g.Layer {
+	// 	fmt.Fprintf(&b, layer.String())
+	// }
 
-	for _, imageLayer := range g.ImageLayer {
-		fmt.Fprintf(&b, imageLayer.String())
-	}
+	// for _, objectGroup := range g.ObjectGroup {
+	// 	fmt.Fprintf(&b, objectGroup.String())
+	// }
 
-	for _, group := range g.Group {
-		fmt.Fprintf(&b, group.String())
-	}
+	// for _, imageLayer := range g.ImageLayer {
+	// 	fmt.Fprintf(&b, imageLayer.String())
+	// }
+
+	// for _, group := range g.Group {
+	// 	fmt.Fprintf(&b, group.String())
+	// }
 
 	return b.String()
 }

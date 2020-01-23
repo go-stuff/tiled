@@ -85,7 +85,6 @@ type Map struct {
 	// Can contain: <properties>, <tileset>, <layer>, <objectgroup>, <imagelayer>, <group> (since 1.0)
 	Content []Content `xml:",any"`
 
-	// Property structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#property
 	// Properties  []*Property    `xml:"properties>property"`
 	// Tileset     []*Tileset     `xml:"tileset"`
 	// Layer       []*Layer       `xml:"layer"`
