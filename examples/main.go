@@ -15,5 +15,6 @@ func main() {
 	}
 	fmt.Println(t.String())
 
-	fmt.Println(t.CountLayers(0, t.Map.Content))
+	fmt.Println(t.TilesetCount(t.Map.Content))
+	fmt.Println(t.LayerCount(0, t.Map.Content))
 }
