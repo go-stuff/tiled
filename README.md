@@ -10,7 +10,7 @@ The [TMX Map Format](https://doc.mapeditor.org/de/stable/reference/tmx-map-forma
 
 A field used that is not listed in the spec is [tmx.Data.InnerXML](https://github.com/go-stuff/tiled/blob/master/tmx/data.go), it is the raw XML nested inside the tag `<data>`.
 
-A field used that is not listed in the spec is [tmx.Custom](https://github.com/go-stuff/tiled/blob/master/tmx/custom.go), it is used to preserve the order of `tmx.Map` elements. While building a game engine, the order of each layer in Map became important.
+A field used that is not listed in the spec is [tmx.Content](https://github.com/go-stuff/tiled/blob/master/tmx/content.go), it is used to preserve the order of `tmx.Map` and `tmx.Group` elements. While building a game engine, the order of each layer in Map and Group became important.
 
 ## Packages Imported
 
