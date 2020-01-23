@@ -108,6 +108,23 @@ func LoadTMX(source string) (*TMX, error) {
 	return t, nil
 }
 
+// CountLayers recurses Map and Group Content to get a count of Layers.
+func (t *TMX) CountLayers(count int, content []Content) int {
+	for _, c := range content {
+		switch v := c.Value.(type) {
+		case *Layer:
+			count++
+		case *ImageLayer:
+			count++
+		case *ObjectGroup:
+			count++
+		case *Group:
+			count = t.CountLayers(count, v.Content)
+		}
+	}
+	return count
+}
+
 func (t *TMX) String() string {
 	return t.Map.String()
 }
