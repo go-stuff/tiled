@@ -108,6 +108,32 @@ func LoadTMX(source string) (*TMX, error) {
 	return t, nil
 }
 
+// TilesetCount ranges Map.Content to get a count of Tilesets.
+func (t *TMX) TilesetCount(content []Content) int {
+	count := 0
+	for _, c := range content {
+		switch c.Value.(type) {
+		case *Tileset:
+			count++
+		}
+	}
+	return count
+}
+
+// ImageCount ranges Map.Content to get a count of Images from Tilesets and ImageLayers.
+func (t *TMX) ImageCount(content []Content) int {
+	count := 0
+	for _, c := range content {
+		switch c.Value.(type) {
+		case *Tileset:
+			count++
+		case *ImageLayer:
+			count++
+		}
+	}
+	return count
+}
+
 // LayerCount recurses Map.Content and Group.Content to get a count of Layers.
 func (t *TMX) LayerCount(count int, content []Content) int {
 	for _, c := range content {
@@ -120,18 +146,6 @@ func (t *TMX) LayerCount(count int, content []Content) int {
 			count++
 		case *Group:
 			count = t.LayerCount(count, v.Content)
-		}
-	}
-	return count
-}
-
-// TilesetCount ranges Map.Content to get a count of Tilesets.
-func (t *TMX) TilesetCount(content []Content) int {
-	count := 0
-	for _, c := range content {
-		switch c.Value.(type) {
-		case *Tileset:
-			count++
 		}
 	}
 	return count
