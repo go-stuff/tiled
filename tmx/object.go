@@ -21,16 +21,16 @@ type Object struct {
 	Type string `xml:"type,attr"`
 
 	// The x coordinate of the object in pixels.
-	X float32 `xml:"x,attr"`
+	X float64 `xml:"x,attr"`
 
 	// The y coordinate of the object in pixels.
-	Y float32 `xml:"y,attr"`
+	Y float64 `xml:"y,attr"`
 
 	// The width of the object in pixels (defaults to 0).
-	Width float32 `xml:"width,attr"`
+	Width float64 `xml:"width,attr"`
 
 	// The height of the object in pixels (defaults to 0).
-	Height float32 `xml:"height,attr"`
+	Height float64 `xml:"height,attr"`
 
 	// The rotation of the object in degrees clockwise around (x, y) (defaults to 0).
 	Rotation float32 `xml:"rotation,attr"`
