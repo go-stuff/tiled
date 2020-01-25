@@ -14,7 +14,7 @@ type Frame struct {
 	TileID int `xml:"tileid,attr"`
 
 	// How long (in milliseconds) this frame should be displayed before advancing to the next frame.
-	Duration int `xml:"duration,attr"`
+	Duration int64 `xml:"duration,attr"`
 }
 
 func (f *Frame) String() string {
