@@ -118,6 +118,20 @@ func LoadTMX(source string) (*TMX, error) {
 	return t, nil
 }
 
+// LoadTMX loads the xml of a tmx file into a TMX struct.
+func LoadTMXBytes(bytes []byte) (*TMX, error) {
+	var err error
+
+	t := new(TMX)
+
+	err = xml.Unmarshal(bytes, &t.Map)
+	if err != nil {
+		return nil, fmt.Errorf("error unmarshaling tmx bytes: %w", err)
+	}
+
+	return t, nil
+}
+
 // TilesetCount ranges Map.Content to get a count of Tilesets.
 func (t *TMX) TilesetCount(content []Content) int {
 	count := 0
