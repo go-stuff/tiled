@@ -20,11 +20,11 @@
 package tmx
 
 import (
+	"os"
 	"path/filepath"
 
 	"encoding/xml"
 	"fmt"
-	"io/ioutil"
 )
 
 // TMX structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#tmx-map-format
@@ -47,10 +47,20 @@ func LoadTMX(source string) (*TMX, error) {
 	tmxDir, tmxFile = filepath.Split(source)
 	tmxPath := filepath.Join(tmxDir, tmxFile)
 
-	fmt.Println(tmxPath)
+	//fmt.Println(tmxPath)
 
 	// Unmarshal the tmx path.
-	tmxBytes, err := ioutil.ReadFile(tmxPath)
+	//tmxBytes, err := ioutil.ReadFile(tmxPath)
+	file, err := os.Open(tmxPath)
+	if err != nil {
+		return nil, fmt.Errorf("error opening tmx file: %w", err)
+	}
+	fileInfo, err := file.Stat()
+	if err != nil {
+		return nil, fmt.Errorf("error getting info on tmx file: %w", err)
+	}
+	tmxBytes := make([]byte, fileInfo.Size())
+	_, err = file.Read(tmxBytes)
 	if err != nil {
 		return nil, fmt.Errorf("error reading tmx file: %w", err)
 	}
