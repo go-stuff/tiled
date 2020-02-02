@@ -20,7 +20,7 @@
 package tmx
 
 import (
-	"os"
+	"io/ioutil"
 	"path/filepath"
 
 	"encoding/xml"
@@ -47,23 +47,10 @@ func LoadTMX(source string) (*TMX, error) {
 	tmxDir, tmxFile = filepath.Split(source)
 	tmxPath := filepath.Join(tmxDir, tmxFile)
 
-	//fmt.Println(tmxPath)
+	fmt.Println(tmxPath)
 
 	// Unmarshal the tmx path.
-	//tmxBytes, err := ioutil.ReadFile(tmxPath)
-	file, err := os.Open(tmxPath)
-	if err != nil {
-		return nil, fmt.Errorf("error opening tmx file: %w", err)
-	}
-	fileInfo, err := file.Stat()
-	if err != nil {
-		return nil, fmt.Errorf("error getting info on tmx file: %w", err)
-	}
-	tmxBytes := make([]byte, fileInfo.Size())
-	_, err = file.Read(tmxBytes)
-	if err != nil {
-		return nil, fmt.Errorf("error reading tmx file: %w", err)
-	}
+	tmxBytes, err := ioutil.ReadFile(tmxPath)
 	err = xml.Unmarshal(tmxBytes, &t.Map)
 	if err != nil {
 		return nil, fmt.Errorf("error unmarshaling tmx bytes: %w", err)
@@ -118,7 +105,7 @@ func LoadTMX(source string) (*TMX, error) {
 	return t, nil
 }
 
-// LoadTMX loads the xml of a tmx file into a TMX struct.
+// LoadTMXBytes loads the xml of a tmx file into a TMX struct.
 func LoadTMXBytes(bytes []byte) (*TMX, error) {
 	var err error
 
