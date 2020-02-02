@@ -52,7 +52,7 @@ func (c *Content) UnmarshalXML(decoder *xml.Decoder, startElement xml.StartEleme
 			// Update tileset source with a safe path.
 			tileset.Source = tsxPath
 
-			fmt.Println(tsxPath)
+			// fmt.Println(tsxPath)
 
 			// Unmarshal a tsx path.
 			tsxBytes, err := ioutil.ReadFile(tsxPath)

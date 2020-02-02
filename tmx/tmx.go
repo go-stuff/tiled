@@ -47,10 +47,16 @@ func LoadTMX(source string) (*TMX, error) {
 	tmxDir, tmxFile = filepath.Split(source)
 	tmxPath := filepath.Join(tmxDir, tmxFile)
 
-	fmt.Println(tmxPath)
+	// fmt.Println(tmxPath)
 
 	// Unmarshal the tmx path.
 	tmxBytes, err := ioutil.ReadFile(tmxPath)
+	if err != nil {
+		return nil, fmt.Errorf("error reading tmx file: %w", err)
+	}
+
+	fmt.Println(string(tmxBytes))
+
 	err = xml.Unmarshal(tmxBytes, &t.Map)
 	if err != nil {
 		return nil, fmt.Errorf("error unmarshaling tmx bytes: %w", err)
