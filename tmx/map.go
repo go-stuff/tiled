@@ -85,7 +85,7 @@ type Map struct {
 	// The staggered orientation refers to an isometric map using staggered axes.
 
 	// Can contain: <properties>, <tileset>, <layer>, <objectgroup>, <imagelayer>, <group> (since 1.0)
-	Content []Content `xml:",any"`
+	Content []Content `xml:",>any"`
 
 	// Properties  []*Property    `xml:"properties>property"`
 	// Tileset     []*Tileset     `xml:"tileset"`
