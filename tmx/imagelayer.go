@@ -33,9 +33,9 @@ type ImageLayer struct {
 	Opacity int `xml:"opacity,attr,omitempty"`
 
 	// Whether the layer is shown (1) or hidden (0). Defaults to 1.
-	Visible int `xml:"visible,attr,omitempty"`
+	Visible int `xml:"visible,attr"`
 
-	Locked int `xml:"locked,attr,omitempty"`
+	Locked int `xml:"locked,attr"`
 
 	// A layer consisting of a single image.
 
