@@ -53,8 +53,12 @@ func (i *ImageLayer) String() string {
 	fmt.Fprintf(&b, "\tOpacity: (%T) %t\n", i.Opacity, i.Opacity)
 	fmt.Fprintf(&b, "\tVisible: (%T) %t\n", i.Visible, i.Visible)
 
-	for _, property := range i.Properties {
-		fmt.Fprintf(&b, property.String())
+	// for _, property := range i.Properties. {
+	// 	fmt.Fprintf(&b, property.String())
+	// }
+
+	if i.Properties != nil {
+		fmt.Fprintf(&b, i.Properties.String())
 	}
 
 	if i.Image != nil {
