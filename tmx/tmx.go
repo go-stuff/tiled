@@ -29,7 +29,8 @@ import (
 
 // TMX structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#tmx-map-format
 type TMX struct {
-	Map *Map
+	XMLName xml.Name `xml:"-"`
+	Map     *Map
 }
 
 var (

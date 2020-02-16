@@ -10,8 +10,9 @@ import (
 
 // Content is of any value using interface{}, to preserver the order of the XML elements.
 type Content struct {
-	Type  string
-	Value interface{}
+	XMLName xml.Name `xml:"-"`
+	Type    string   `xml:"-"`
+	Value   interface{}
 }
 
 // UnmarshalXML is called by Unmarshal to produce the value from the XML element.
