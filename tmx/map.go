@@ -53,17 +53,19 @@ type Map struct {
 
 	// Only for hexagonal maps. Determines the width or height (depending on the staggered axis) of the tile’s edge,
 	// in pixels.
-	HexSideLength int `xml:"hexsidelength,attr"`
+	HexSideLength int `xml:"hexsidelength,attr,omitempty"`
 
 	//  For staggered and hexagonal maps, determines which axis (“x” or “y”) is staggered. (since 0.11)
-	StaggerAxis string `xml:"staggeraxis,attr"`
+	StaggerAxis string `xml:"staggeraxis,attr,omitempty"`
 
 	// For staggered and hexagonal maps, determines whether the “even” or “odd” indexes along the staggered axis are
 	// shifted. (since 0.11)
-	StaggerIndex string `xml:"staggerindex,attr"`
+	StaggerIndex string `xml:"staggerindex,attr,omitempty"`
 
 	// The background color of the map. (optional, may include alpha value since 0.15 in the form #AARRGGBB)
-	BackgroundColor string `xml:"backgroundcolor,attr"`
+	BackgroundColor string `xml:"backgroundcolor,attr,omitempty"`
+
+	Infinite int `xml:"infinite,attr,omitempty"`
 
 	// Stores the next available ID for new layers. This number is stored to prevent reuse of the same ID after layers
 	// have been removed. (since 1.2)
