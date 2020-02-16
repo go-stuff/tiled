@@ -29,8 +29,10 @@ import (
 
 // TMX structure: https://doc.mapeditor.org/en/stable/reference/tmx-map-format/#tmx-map-format
 type TMX struct {
-	XMLName xml.Name `xml:"xml"`
-	Map     *Map
+	XMLName  xml.Name `xml:"xml"`
+	Version  string   `xml:"version,attr,omitemtpty"`
+	Encoding string   `xml:"encoding,attr,omitempty"`
+	Map      *Map
 }
 
 var (
