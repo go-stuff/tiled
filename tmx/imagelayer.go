@@ -52,8 +52,8 @@ func (i *ImageLayer) String() string {
 	fmt.Fprintf(&b, "\tName:    (%T) %q\n", i.Name, i.Name)
 	fmt.Fprintf(&b, "\tOffsetX: (%T) %d\n", i.OffsetX, i.OffsetX)
 	fmt.Fprintf(&b, "\tOffsetY: (%T) %d\n", i.OffsetY, i.OffsetY)
-	fmt.Fprintf(&b, "\tOpacity: (%T) %t\n", i.Opacity, i.Opacity)
-	fmt.Fprintf(&b, "\tVisible: (%T) %t\n", i.Visible, i.Visible)
+	fmt.Fprintf(&b, "\tOpacity: (%T) %d\n", i.Opacity, i.Opacity)
+	fmt.Fprintf(&b, "\tVisible: (%T) %d\n", i.Visible, i.Visible)
 
 	// for _, property := range i.Properties. {
 	// 	fmt.Fprintf(&b, property.String())
