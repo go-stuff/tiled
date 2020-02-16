@@ -36,7 +36,7 @@ type ObjectGroup struct {
 	Opacity int `xml:"opacity,attr,omitempty"`
 
 	// Whether the layer is shown (1) or hidden (0). Defaults to 1.
-	Visible int `xml:"visible,attr,omitempty"`
+	Visible int `xml:"visible,attr"`
 
 	// Rendering offset for this object group in pixels. Defaults to 0. (since 0.14)
 	OffsetX int `xml:"offsetx,attr,omitempty"`
