@@ -38,7 +38,7 @@ type ImageLayer struct {
 	// A layer consisting of a single image.
 
 	// Can contain: <properties>, <image>
-	Properties []*Property `xml:"properties>property,omitempty"`
+	Properties *Properties `xml:"properties,omitempty"`
 	Image      *Image      `xml:"image,omitempty"`
 }
 
