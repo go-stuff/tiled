@@ -10,7 +10,7 @@ import (
 
 // Content is of any value using interface{}, to preserver the order of the XML elements.
 type Content struct {
-	XMLName xml.Name `xml:"-"`
+	XMLName xml.Name `xml:""`
 	Type    string   `xml:"-"`
 	Value   interface{}
 }
