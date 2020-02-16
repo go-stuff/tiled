@@ -22,7 +22,7 @@ type Image struct {
 
 	// Defines a specific color that is treated as transparent (example value: “#FF00FF” for magenta). Up until Tiled
 	// 0.12, this value is written out without a # but this is planned to change.
-	Trans string `xml:"trans,attr"`
+	Trans string `xml:"trans,attr,omitempty"`
 
 	// The image width in pixels (optional, used for tile index correction when the image changes)
 	Width int `xml:"width,attr"`
