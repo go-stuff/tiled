@@ -35,6 +35,8 @@ type ImageLayer struct {
 	// Whether the layer is shown (1) or hidden (0). Defaults to 1.
 	Visible bool `xml:"visible,attr,omitempty"`
 
+	Locked bool `xml:"locked,attr,omitempty"`
+
 	// A layer consisting of a single image.
 
 	// Can contain: <properties>, <image>
