@@ -18,7 +18,7 @@ type ObjectGroup struct {
 	Name string `xml:"name,attr"`
 
 	// The color used to display the objects in this group.
-	Color string `xml:"color,attr"`
+	Color string `xml:"color,attr,omitempty"`
 
 	// The x coordinate of the object group in tiles. Defaults to 0 and can no longer be changed in Tiled.
 	// X      float32  `xml:"x,attr"`
@@ -33,25 +33,25 @@ type ObjectGroup struct {
 	// Height float32  `xml:"height,attr"`
 
 	// The opacity of the layer as a value from 0 to 1. Defaults to 1.
-	Opacity bool `xml:"opacity,attr"`
+	Opacity int `xml:"opacity,attr,omitempty"`
 
 	// Whether the layer is shown (1) or hidden (0). Defaults to 1.
-	Visible bool `xml:"visible,attr"`
+	Visible int `xml:"visible,attr,omitempty"`
 
 	// Rendering offset for this object group in pixels. Defaults to 0. (since 0.14)
-	OffsetX int `xml:"offsetx,attr"`
+	OffsetX int `xml:"offsetx,attr,omitempty"`
 
 	// Rendering offset for this object group in pixels. Defaults to 0. (since 0.14)
-	OffsetY int `xml:"offsety,attr"`
+	OffsetY int `xml:"offsety,attr,omitempty"`
 
 	// Whether the objects are drawn according to the order of appearance (“index”) or sorted by their y-coordinate
 	// (“topdown”). Defaults to “topdown”.
-	DrawOrder string `xml:"draworder,attr"`
+	DrawOrder string `xml:"draworder,attr,omitempty"`
 
 	// The object group is in fact a map layer, and is hence called “object layer” in Tiled.
 
 	// Can contain: <properties>, <object>
-	Properties []*Property `xml:"properties>property"`
+	Properties *Properties `xml:"properties,omitempty"`
 	Object     []*Object   `xml:"object"`
 }
 
@@ -68,8 +68,12 @@ func (o *ObjectGroup) String() string {
 	fmt.Fprintf(&b, "\tOffsetY:   (%T) %d\n", o.OffsetY, o.OffsetY)
 	fmt.Fprintf(&b, "\tDrawOrder: (%T) %q\n", o.DrawOrder, o.DrawOrder)
 
-	for _, property := range o.Properties {
-		fmt.Fprintf(&b, property.String())
+	// for _, property := range o.Properties {
+	// 	fmt.Fprintf(&b, property.String())
+	// }
+
+	if o.Properties != nil {
+		fmt.Fprintf(&b, o.Properties.String())
 	}
 
 	for _, object := range o.Object {
