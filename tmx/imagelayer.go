@@ -18,10 +18,10 @@ type ImageLayer struct {
 	Name string `xml:"name,attr"`
 
 	// Rendering offset of the image layer in pixels. Defaults to 0. (since 0.15)
-	OffsetX int `xml:"offsetx,attr"`
+	OffsetX int `xml:"offsetx,attr,omitempty"`
 
 	// Rendering offset of the image layer in pixels. Defaults to 0. (since 0.15)
-	OffsetY int `xml:"offsety,attr"`
+	OffsetY int `xml:"offsety,attr,omitempty"`
 
 	// The x position of the image layer in pixels. (deprecated since 0.15)
 	// X       int      `xml:"x,attr"`
@@ -30,16 +30,16 @@ type ImageLayer struct {
 	// Y       int      `xml:"y,attr"`
 
 	// The opacity of the layer as a value from 0 to 1. Defaults to 1.
-	Opacity bool `xml:"opacity,attr"`
+	Opacity bool `xml:"opacity,attr,omitempty"`
 
 	// Whether the layer is shown (1) or hidden (0). Defaults to 1.
-	Visible bool `xml:"visible,attr"`
+	Visible bool `xml:"visible,attr,omitempty"`
 
 	// A layer consisting of a single image.
 
 	// Can contain: <properties>, <image>
-	Properties []*Property `xml:"properties>property"`
-	Image      *Image      `xml:"image"`
+	Properties []*Property `xml:"properties>property,omitempty"`
+	Image      *Image      `xml:"image,omitempty"`
 }
 
 func (i *ImageLayer) String() string {
