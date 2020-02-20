@@ -54,6 +54,8 @@ func LoadTMX(source string) (*TMX, error) {
 		return nil, err
 	}
 
+	fmt.Println("tmx:", absTMXPath)
+
 	// Unmarshal the tmx path.
 	tmxBytes, err := ioutil.ReadFile(absTMXPath)
 	if err != nil {
