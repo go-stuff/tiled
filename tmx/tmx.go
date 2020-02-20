@@ -49,15 +49,15 @@ func LoadTMX(source string) (*TMX, error) {
 
 	// fmt.Println(tmxPath)
 
-	absTMXPath, err := filepath.Abs(tmxPath)
-	if err != nil {
-		return nil, err
-	}
+	// absTMXPath, err := filepath.Abs(tmxPath)
+	// if err != nil {
+	// 	return nil, err
+	// }
 
-	fmt.Println("tmx:", absTMXPath)
+	// fmt.Println("tmx:", absTMXPath)
 
 	// Unmarshal the tmx path.
-	tmxBytes, err := ioutil.ReadFile(absTMXPath)
+	tmxBytes, err := ioutil.ReadFile(tmxPath)
 	if err != nil {
 		return nil, fmt.Errorf("error reading tmx file: %w", err)
 	}
