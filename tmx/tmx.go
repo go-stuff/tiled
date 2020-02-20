@@ -55,7 +55,7 @@ func LoadTMX(source string) (*TMX, error) {
 		return nil, fmt.Errorf("error reading tmx file: %w", err)
 	}
 
-	fmt.Println(string(tmxBytes))
+	//fmt.Println(string(tmxBytes))
 
 	err = xml.Unmarshal(tmxBytes, &t.Map)
 	if err != nil {
