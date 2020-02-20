@@ -44,20 +44,20 @@ func LoadTMX(source string) (*TMX, error) {
 	t := new(TMX)
 
 	// Get tmx directory and filename and create a safe path.
-	tmxDir, tmxFile = filepath.Split(source)
-	tmxPath := filepath.Join(tmxDir, tmxFile)
+	// tmxDir, tmxFile = filepath.Split(source)
+	// tmxPath := filepath.Join(tmxDir, tmxFile)
 
 	// fmt.Println(tmxPath)
 
-	// absTMXPath, err := filepath.Abs(tmxPath)
-	// if err != nil {
-	// 	return nil, err
-	// }
+	absSource, err := filepath.Abs(source)
+	if err != nil {
+		return nil, err
+	}
 
-	// fmt.Println("tmx:", absTMXPath)
+	fmt.Println("tmx:", absSource)
 
 	// Unmarshal the tmx path.
-	tmxBytes, err := ioutil.ReadFile(tmxPath)
+	tmxBytes, err := ioutil.ReadFile(absSource)
 	if err != nil {
 		return nil, fmt.Errorf("error reading tmx file: %w", err)
 	}
